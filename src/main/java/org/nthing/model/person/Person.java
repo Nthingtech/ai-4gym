@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import java.time.LocalDate;
 
 @MappedSuperclass
-public class Person {
+public abstract class Person {
 
     @NotNull
     @Column(nullable = false, length = 100)
