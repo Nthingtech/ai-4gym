@@ -1,2 +1,9 @@
-org/nthing/MyEntity.class
-org/nthing/GreetingResource.class
+org/nthing/controller/ClientController.class
+org/nthing/model/person/Person.class
+org/nthing/model/person/Employee.class
+org/nthing/model/person/Gender.class
+org/nthing/model/embeddable/Address.class
+org/nthing/model/embeddable/Phone.class
+org/nthing/model/embeddable/Name.class
+org/nthing/model/person/PhysicalTrainer.class
+org/nthing/model/person/Client.class
