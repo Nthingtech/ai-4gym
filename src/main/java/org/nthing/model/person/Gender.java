@@ -7,5 +7,5 @@ public enum Gender {
     HOMEM_CIS,
     NAO_BINARIO,
     OUTRO,
-    NAO_INFORMAR
+    PREFIRO_NAO_INFORMAR
 }

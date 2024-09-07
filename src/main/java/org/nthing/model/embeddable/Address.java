@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Embeddable
 public class Address {
@@ -29,8 +30,9 @@ public class Address {
     public String state;
 
     @NotNull
-    @Column(nullable = false, length = 8)
+    @Size(min = 8, max = 8)
     @Pattern(regexp = "\\d{8}", message = "O campo deve conter apenas oito dígitos numéricos.")
+    @Column(nullable = false, length = 8)
     public String zipcode;
 
     public Address() {

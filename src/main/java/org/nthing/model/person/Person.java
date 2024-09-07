@@ -7,18 +7,18 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 import org.nthing.model.embeddable.Address;
 import org.nthing.model.embeddable.Name;
+import org.nthing.model.embeddable.Phone;
 
 import java.time.LocalDate;
 
 @MappedSuperclass
 public abstract class Person extends PanacheEntity {
 
+    @Embedded
     @NotNull
-    @Column(nullable = false, length = 100)
     public Name name;
 
     @NotNull
@@ -28,12 +28,8 @@ public abstract class Person extends PanacheEntity {
     @NotNull
     @CPF
     @Pattern(regexp = "\\d+", message = "O campo deve conter apenas dígitos numéricos")
-    @Column(/*unique = true,*/ nullable = false)
+    @Column(unique = true, nullable = false)
     public String cpf;
-
-    @NotNull
-    @Column(/*unique = true, */nullable = false)
-    public String rg;
 
     @NotNull
     @Column(nullable = false, length = 12)
@@ -41,21 +37,19 @@ public abstract class Person extends PanacheEntity {
 
     @Embedded
     @NotNull
-    @Column(nullable = false)
     public Address address;
 
+    @Embedded
     @NotNull
-    @Length(min = 11, max = 11)
-    @Column(nullable = false/*, unique = true*/)
-    public String phone;
+    public Phone phone;
 
     @NotNull
     @Email(message = "O email deve ser válido", regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
-    @Column(nullable = false/*, unique = true*/)
+    @Column(nullable = false, unique = true)
     public String email;
 
     @NotNull
-    @Column(nullable = false/*, unique = true*/)
+    @Column(nullable = false)
     public String password;
 
 

@@ -1,0 +1,9 @@
+/home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/controller/ClientController.java
+/home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/model/embeddable/Address.java
+/home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/model/embeddable/Name.java
+/home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/model/embeddable/Phone.java
+/home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/model/person/Client.java
+/home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/model/person/Employee.java
+/home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/model/person/Gender.java
+/home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/model/person/Person.java
+/home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/model/person/PhysicalTrainer.java
