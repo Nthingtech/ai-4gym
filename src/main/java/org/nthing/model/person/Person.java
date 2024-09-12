@@ -3,6 +3,8 @@ package org.nthing.model.person;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -33,6 +35,7 @@ public abstract class Person extends PanacheEntity {
 
     @NotNull
     @Column(nullable = false, length = 12)
+    @Enumerated(EnumType.STRING)
     public Gender gender;
 
     @Embedded
