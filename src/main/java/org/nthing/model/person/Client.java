@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) //TODO REMOVE
 @Table(indexes = {@Index(name = "idx_enrollmentNumber", columnList = "enrollmentNumber")})
 public class Client extends Person {
 

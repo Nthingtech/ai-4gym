@@ -55,6 +55,23 @@ public abstract class Person extends PanacheEntity {
     @Column(nullable = false)
     public String password;
 
+    public Person() {
+    }
 
 
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name=" + name +
+                ", birthDate=" + birthDate +
+                ", cpf='" + cpf + '\'' +
+                ", gender=" + gender +
+                ", address=" + address +
+                ", phone=" + phone +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", id=" + id +
+                "} " + super.toString();
+    }
 }
