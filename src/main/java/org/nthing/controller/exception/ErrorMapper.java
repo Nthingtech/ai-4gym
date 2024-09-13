@@ -38,6 +38,6 @@ public class ErrorMapper implements ExceptionMapper<Exception> {
         return Response.status(code)
                 .entity(exceptionJson)
                 .build();
-        
+
     }
 }
