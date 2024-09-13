@@ -1,4 +1,5 @@
 /home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/controller/ClientController.java
+/home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/controller/exception/ErrorMapper.java
 /home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/model/embeddable/Address.java
 /home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/model/embeddable/Name.java
 /home/nando/Projects/TreinEasy_2.0/ai-4gym/src/main/java/org/nthing/model/embeddable/Phone.java

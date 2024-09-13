@@ -7,4 +7,5 @@ org/nthing/model/embeddable/Address.class
 org/nthing/model/embeddable/Phone.class
 org/nthing/model/embeddable/Name.class
 org/nthing/model/person/PhysicalTrainer.class
+org/nthing/controller/exception/ErrorMapper.class
 org/nthing/model/person/Client.class
