@@ -58,6 +58,18 @@ public abstract class Person extends PanacheEntity {
     public Person() {
     }
 
+    public Person(Name name, LocalDate birthDate, String cpf, Gender gender, Address address,
+                  Phone phone, String email, String password) {
+        this.name = name;
+        this.birthDate = birthDate;
+        this.cpf = cpf;
+        this.gender = gender;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+    }
+
 
 
     @Override
