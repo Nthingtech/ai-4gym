@@ -1,14 +1,14 @@
-package org.nthing.model.person;
+package org.nthing.persons.client;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import org.nthing.model.embeddable.Address;
-import org.nthing.model.embeddable.Name;
-import org.nthing.model.embeddable.Phone;
-import org.nthing.model.enums.Gender;
+import org.nthing.persons.Person;
+import org.nthing.embeddable.Address;
+import org.nthing.embeddable.Name;
+import org.nthing.persons.client.enums.Gender;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,7 +29,7 @@ public class Client extends Person {
     public Client() {
     }
 
-    public Client(Name name, LocalDate birthDate, String cpf, Gender gender, Address address, Phone phone, String email, String password, Long enrollmentNumber, String instagram) {
+    public Client(Name name, LocalDate birthDate, String cpf, Gender gender, Address address, String phone, String email, String password, Long enrollmentNumber, String instagram) {
         super(name, birthDate, cpf, gender, address, phone, email, password);
         this.enrollmentNumber = enrollmentNumber;
         this.instagram = instagram;

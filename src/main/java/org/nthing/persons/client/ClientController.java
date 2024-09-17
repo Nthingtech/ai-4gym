@@ -1,4 +1,4 @@
-package org.nthing.controller;
+package org.nthing.persons.client;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Path;

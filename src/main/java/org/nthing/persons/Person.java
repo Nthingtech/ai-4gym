@@ -1,4 +1,4 @@
-package org.nthing.model.person;
+package org.nthing.persons;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
@@ -9,11 +9,11 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
-import org.nthing.model.embeddable.Address;
-import org.nthing.model.embeddable.Name;
-import org.nthing.model.embeddable.Phone;
-import org.nthing.model.enums.Gender;
+import org.nthing.embeddable.Address;
+import org.nthing.embeddable.Name;
+import org.nthing.persons.client.enums.Gender;
 
 import java.time.LocalDate;
 
@@ -43,9 +43,11 @@ public abstract class Person extends PanacheEntity {
     @NotNull
     public Address address;
 
-    @Embedded
     @NotNull
-    public Phone phone;
+    @Size(min = 10, max = 11)
+    @Pattern(regexp = "^\\d+$", message = "O campo deve conter apenas dígitos numéricos")
+    @Column(nullable = false, length = 11, unique = true)
+    public String phone;
 
     @NotNull
     @Email(message = "O email deve ser válido", regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
@@ -60,7 +62,7 @@ public abstract class Person extends PanacheEntity {
     }
 
     public Person(Name name, LocalDate birthDate, String cpf, Gender gender, Address address,
-                  Phone phone, String email, String password) {
+                  String phone, String email, String password) {
         this.name = name;
         this.birthDate = birthDate;
         this.cpf = cpf;

@@ -1,4 +1,4 @@
-package org.nthing.controller.exception;
+package org.nthing.exceptions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;

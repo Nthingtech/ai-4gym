@@ -1,4 +1,4 @@
-package org.nthing.model.embeddable;
+package org.nthing.embeddable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
