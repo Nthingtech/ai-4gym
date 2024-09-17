@@ -6,11 +6,13 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 import org.nthing.embeddable.Address;
@@ -18,6 +20,7 @@ import org.nthing.embeddable.Name;
 import org.nthing.persons.client.enums.Gender;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 @MappedSuperclass
 public abstract class Person extends PanacheEntity {
@@ -29,6 +32,8 @@ public abstract class Person extends PanacheEntity {
     @NotNull
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", nullable = false)
     public LocalDate birthDate;
+
+    public Integer age;
 
     @NotNull
     @NotBlank
@@ -63,13 +68,23 @@ public abstract class Person extends PanacheEntity {
     @Column(nullable = false)
     public String password;
 
+    @NotNull
+    @Positive
+    @PrePersist
+    public void calcAge() {
+        LocalDate today = LocalDate.now();
+        Period calcAge = Period.between(this.birthDate, today);
+        this.age = calcAge.getYears();
+    }
+
     public Person() {
     }
 
-    public Person(Name name, LocalDate birthDate, String cpf, Gender gender, Address address,
+    public Person(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address,
                   String phone, String email, String password) {
         this.name = name;
         this.birthDate = birthDate;
+        this.age = age;
         this.cpf = cpf;
         this.gender = gender;
         this.address = address;
