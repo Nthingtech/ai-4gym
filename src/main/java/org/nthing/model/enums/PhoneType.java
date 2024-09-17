@@ -1,4 +1,4 @@
-package org.nthing.model.embeddable;
+package org.nthing.model.enums;
 
 public enum PhoneType {
 

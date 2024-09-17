@@ -1,4 +1,4 @@
-package org.nthing.model.person;
+package org.nthing.model.enums;
 
 public enum Gender {
     MULHER_TRANS,

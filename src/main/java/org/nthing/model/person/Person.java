@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.nthing.model.embeddable.Address;
 import org.nthing.model.embeddable.Name;
 import org.nthing.model.embeddable.Phone;
+import org.nthing.model.enums.Gender;
 
 import java.time.LocalDate;
 
