@@ -7,6 +7,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -25,10 +27,11 @@ public abstract class Person extends PanacheEntity {
     public Name name;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", nullable = false)
     public LocalDate birthDate;
 
     @NotNull
+    @NotBlank
     @CPF
     @Pattern(regexp = "\\d+", message = "O campo deve conter apenas dígitos numéricos")
     @Column(unique = true, nullable = false)
@@ -55,6 +58,8 @@ public abstract class Person extends PanacheEntity {
     public String email;
 
     @NotNull
+    @NotBlank
+    @Min(value = 12, message = "A senha deve ter no mínimo 12 caracteres.")
     @Column(nullable = false)
     public String password;
 
