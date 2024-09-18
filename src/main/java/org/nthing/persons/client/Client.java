@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import org.nthing.persons.Person;
 import org.nthing.embeddable.Address;
 import org.nthing.embeddable.Name;
-import org.nthing.persons.client.enums.Gender;
+import org.nthing.persons.enums.Gender;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,14 +23,14 @@ public class Client extends Person {
     @Column(nullable = false, unique = true)
     public Long enrollmentNumber = id;
 
-    @Column
+    @Column(unique = true)
     public String instagram;
 
     public Client() {
     }
 
-    public Client(Name name, LocalDate birthDate, String cpf, Gender gender, Address address, String phone, String email, String password, Long enrollmentNumber, String instagram) {
-        super(name, birthDate, cpf, gender, address, phone, email, password);
+    public Client(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address, String phone, String email, String password, Long enrollmentNumber, String instagram) {
+        super(name, birthDate, age, cpf, gender, address, phone, email, password);
         this.enrollmentNumber = enrollmentNumber;
         this.instagram = instagram;
     }

@@ -17,7 +17,7 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 import org.nthing.embeddable.Address;
 import org.nthing.embeddable.Name;
-import org.nthing.persons.client.enums.Gender;
+import org.nthing.persons.enums.Gender;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -33,6 +33,9 @@ public abstract class Person extends PanacheEntity {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", nullable = false)
     public LocalDate birthDate;
 
+
+    @NotNull
+    @Positive
     public Integer age;
 
     @NotNull
@@ -68,8 +71,7 @@ public abstract class Person extends PanacheEntity {
     @Column(nullable = false)
     public String password;
 
-    @NotNull
-    @Positive
+
     @PrePersist
     public void calcAge() {
         LocalDate today = LocalDate.now();
