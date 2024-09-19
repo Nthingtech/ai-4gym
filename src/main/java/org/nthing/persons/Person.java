@@ -2,9 +2,8 @@ package org.nthing.persons;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.Email;
@@ -18,6 +17,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.nthing.embeddable.Address;
 import org.nthing.embeddable.Name;
 import org.nthing.persons.enums.Gender;
+import org.nthing.persons.enums.converters.GenderConverter;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -47,7 +47,7 @@ public abstract class Person extends PanacheEntity {
 
     @NotNull
     @Column(nullable = false, length = 12)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = GenderConverter.class)
     public Gender gender;
 
     @Embedded
