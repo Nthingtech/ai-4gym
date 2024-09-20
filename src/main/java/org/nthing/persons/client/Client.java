@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import org.nthing.persons.Person;
 import org.nthing.embeddable.Address;
 import org.nthing.embeddable.Name;
-import org.nthing.persons.enums.Gender;
+import org.nthing.enums.Gender;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,8 +1,8 @@
-package org.nthing.persons.enums.converters;
+package org.nthing.enums.converters;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import org.nthing.persons.enums.Gender;
+import org.nthing.enums.Gender;
 
 import java.util.stream.Stream;
 

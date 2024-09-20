@@ -16,8 +16,8 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 import org.nthing.embeddable.Address;
 import org.nthing.embeddable.Name;
-import org.nthing.persons.enums.Gender;
-import org.nthing.persons.enums.converters.GenderConverter;
+import org.nthing.enums.Gender;
+import org.nthing.enums.converters.GenderConverter;
 
 import java.time.LocalDate;
 import java.time.Period;
