@@ -3,12 +3,12 @@ package org.nthing.persons.client;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import org.nthing.persons.Person;
 import org.nthing.embeddable.Address;
 import org.nthing.embeddable.Name;
 import org.nthing.enums.Gender;
+import org.nthing.persons.Person;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,8 +19,7 @@ import java.util.Objects;
 @Table(indexes = {@Index(name = "idx_enrollmentNumber", columnList = "enrollmentNumber")})
 public class Client extends Person {
 
-    @NotNull
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     public Long enrollmentNumber = id;
 
     @Column(unique = true)
@@ -33,6 +32,11 @@ public class Client extends Person {
         super(name, birthDate, age, cpf, gender, address, phone, email, password);
         this.enrollmentNumber = enrollmentNumber;
         this.instagram = instagram;
+    }
+
+    @PrePersist
+    public void setEnrollmentNumber() {
+        this.enrollmentNumber = id;
     }
 
     public static List<Client> clients() {

@@ -7,7 +7,6 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -36,6 +35,7 @@ public abstract class Person extends PanacheEntity {
 
     @NotNull
     @Positive
+    @Column(length = 2)
     public Integer age;
 
     @NotNull
@@ -67,7 +67,7 @@ public abstract class Person extends PanacheEntity {
 
     @NotNull
     @NotBlank
-    @Min(value = 12, message = "A senha deve ter no mínimo 12 caracteres.")
+    @Size(min = 12, message = "A senha deve ter no mínimo 12 caracteres.")
     @Column(nullable = false)
     public String password;
 

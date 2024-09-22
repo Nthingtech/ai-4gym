@@ -39,7 +39,7 @@ public class Address {
     @Size(min = 8, max = 8)
     @Pattern(regexp = "\\d{8}", message = "O campo deve conter apenas oito dígitos numéricos.")
     @Column(nullable = false, length = 8)
-    public Integer zipcode;
+    public String zipcode;
 
     @Size(max = 35)
     @Column(length = 35)
@@ -48,7 +48,7 @@ public class Address {
     public Address() {
     }
 
-    public Address(String residenceNumber, String street, String district, String city, String state, Integer zipcode, String complement) {
+    public Address(String residenceNumber, String street, String district, String city, String state, String zipcode, String complement) {
         this.street = street;
         this.district = district;
         this.city = city;
