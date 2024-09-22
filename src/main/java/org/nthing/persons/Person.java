@@ -6,6 +6,7 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -74,6 +75,13 @@ public abstract class Person extends PanacheEntity {
 
     @PrePersist
     public void calcAge() {
+        LocalDate today = LocalDate.now();
+        Period calcAge = Period.between(this.birthDate, today);
+        this.age = calcAge.getYears();
+    }
+
+    @PreUpdate
+    public void updateAge() {
         LocalDate today = LocalDate.now();
         Period calcAge = Period.between(this.birthDate, today);
         this.age = calcAge.getYears();
