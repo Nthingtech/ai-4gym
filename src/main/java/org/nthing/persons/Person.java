@@ -34,7 +34,7 @@ public abstract class Person extends PanacheEntity {
     public LocalDate birthDate;
 
 
-    @NotNull
+    //@NotNull
     @Positive
     @Column(length = 2)
     public Integer age;
@@ -73,12 +73,12 @@ public abstract class Person extends PanacheEntity {
     public String password;
 
 
-    @PrePersist
+   /* @PrePersist
     public void calcAge() {
         LocalDate today = LocalDate.now();
         Period calcAge = Period.between(this.birthDate, today);
         this.age = calcAge.getYears();
-    }
+    }*/
 
     @PreUpdate
     public void updateAge() {
