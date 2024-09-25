@@ -25,11 +25,11 @@ import java.util.Optional;
 public class ClientController {
 
 
-    private final ClientService clientService;
+   /* private final ClientService clientService;
 
     ClientController(ClientService clientService) {
         this.clientService = clientService;
-    }
+    }*/
 
 
     @GET
@@ -41,9 +41,9 @@ public class ClientController {
     @POST
     @Transactional
     public Response createClient(@Valid Client client) {
-        Optional.ofNullable(client.id)
-                        .ifPresent(id -> {throw new WebApplicationException("Id was invalidly set on request.", 422);
-                        });
+        if (client.id !=null) {
+            throw new WebApplicationException("Id was invalidly set on request.", 422);
+        }
         LocalDate today = LocalDate.now();
         Period calcAge = Period.between(client.birthDate, today);
         client.age = calcAge.getYears();
