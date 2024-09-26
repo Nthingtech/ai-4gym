@@ -1,6 +1,7 @@
 package org.nthing.persons.client;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.persistence.PrePersist;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -24,10 +25,10 @@ import java.util.Optional;
 @Consumes(MediaType.APPLICATION_JSON)
 public class ClientController {
 
+                        @Inject
+    /*private final*/ ClientService clientService;
 
-   /* private final ClientService clientService;
-
-    ClientController(ClientService clientService) {
+   /* ClientController(ClientService clientService) {
         this.clientService = clientService;
     }*/
 

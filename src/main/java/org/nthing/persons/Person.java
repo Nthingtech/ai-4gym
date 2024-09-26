@@ -34,7 +34,7 @@ public abstract class Person extends PanacheEntity {
     public LocalDate birthDate;
 
 
-    
+
     @Positive
     @Column(length = 2)
     public Integer age;
