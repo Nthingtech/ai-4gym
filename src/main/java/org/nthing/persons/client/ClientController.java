@@ -32,6 +32,16 @@ public class ClientController {
         return Client.listAll();
     }
 
+    @GET
+    @Path("{id}")
+    public Client findById(@Positive @NotNull Long id) {
+        Client client = Client.findById(id);
+        if (client == null || client.id <= 0) {
+            throw new WebApplicationException("Client with id of " + id + " does not exist", 404);
+        }
+        return client;
+    }
+
     @POST
     @Transactional
     @Path("create")
@@ -43,16 +53,8 @@ public class ClientController {
         return Response.status(Response.Status.CREATED).entity(createdClient).build() ;
     }
 
-    @GET
-    @Path("{id}")
-    public Client findById(@Positive @NotNull Long id) {
-        Client client = Client.findById(id);
-        if (client == null || client.id <= 0) {
-            throw new WebApplicationException("Client with id of " + id + " does not exist", 404);
-        }
-        return client;
-    }
 
-    
+
+
 
 }
