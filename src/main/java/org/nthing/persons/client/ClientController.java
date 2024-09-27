@@ -1,10 +1,9 @@
 package org.nthing.persons.client;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.persistence.PrePersist;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -14,42 +13,46 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.net.URI;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
-import java.util.Optional;
 
 @Path("/clients")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ClientController {
 
-                        @Inject
-    /*private final*/ ClientService clientService;
+    private final ClientService clientService;
 
-   /* ClientController(ClientService clientService) {
+    public ClientController(ClientService clientService) {
         this.clientService = clientService;
-    }*/
-
+    }
 
     @GET
-    @Path("/list")
+    @Path("list")
     public List<Client> clientList(){
         return Client.listAll();
     }
 
     @POST
     @Transactional
-    public Response createClient(@Valid Client client) {
-        if (client.id !=null) {
+    @Path("create")
+    public Response createClient(@Valid Client newClient) {
+        if (newClient.id !=null) {
             throw new WebApplicationException("Id was invalidly set on request.", 422);
         }
-        LocalDate today = LocalDate.now();
-        Period calcAge = Period.between(client.birthDate, today);
-        client.age = calcAge.getYears();
-        client.persist();
-        return Response.status(Response.Status.CREATED).entity(client).build() ;
+        Client createdClient = clientService.createClient(newClient);
+        return Response.status(Response.Status.CREATED).entity(createdClient).build() ;
     }
+
+    @GET
+    @Path("{id}")
+    public Client findById(@Positive @NotNull Long id) {
+        Client client = Client.findById(id);
+        if (client == null || client.id <= 0) {
+            throw new WebApplicationException("Client with id of " + id + " does not exist", 404);
+        }
+        return client;
+    }
+
+    
 
 }

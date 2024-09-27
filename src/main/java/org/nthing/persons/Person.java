@@ -5,7 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -42,8 +41,9 @@ public abstract class Person extends PanacheEntity {
     @NotNull
     @NotBlank
     @CPF
+    @Size(max = 11)
     @Pattern(regexp = "\\d+", message = "O campo deve conter apenas dígitos numéricos")
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 15)
     public String cpf;
 
     @NotNull
@@ -63,22 +63,16 @@ public abstract class Person extends PanacheEntity {
 
     @NotNull
     @Email(message = "O email deve ser válido", regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
-    @Column(nullable = false, unique = true)
+    @Size(min = 6, max = 35)
+    @Column(nullable = false, unique = true, length = 35)
     public String email;
 
     @NotNull
     @NotBlank
-    @Size(min = 12, message = "A senha deve ter no mínimo 12 caracteres.")
-    @Column(nullable = false)
+    @Size(min = 12, max = 30, message = "A senha deve ter no mínimo 12 caracteres.")
+    @Column(nullable = false, length = 30)
     public String password;
 
-
-   /* @PrePersist
-    public void calcAge() {
-        LocalDate today = LocalDate.now();
-        Period calcAge = Period.between(this.birthDate, today);
-        this.age = calcAge.getYears();
-    }*/
 
     @PreUpdate
     public void updateAge() {

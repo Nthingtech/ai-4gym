@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.nthing.embeddable.Address;
 import org.nthing.embeddable.Name;
 import org.nthing.enums.Gender;
@@ -22,7 +24,9 @@ public class Client extends Person {
     @Column(unique = true)
     public Long enrollmentNumber = id;
 
-    @Column(unique = true)
+    @NotNull
+    @Size(max = 30)
+    @Column(unique = true, length = 35)
     public String instagram;
 
     public Client() {
