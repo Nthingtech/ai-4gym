@@ -6,6 +6,7 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PreUpdate;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,6 +25,7 @@ import java.time.Period;
 @MappedSuperclass
 public abstract class Person extends PanacheEntity {
 
+    @Valid
     @Embedded
     @NotNull
     public Name name;
@@ -51,6 +53,7 @@ public abstract class Person extends PanacheEntity {
     @Convert(converter = GenderConverter.class)
     public Gender gender;
 
+    @Valid
     @Embedded
     @NotNull
     public Address address;
@@ -62,7 +65,7 @@ public abstract class Person extends PanacheEntity {
     public String phone;
 
     @NotNull
-    @Email(message = "O email deve ser válido", regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
+    @Email(message = "O email deve ser válido", regexp = "^[\\w-.]+@[\\w-]+\\.[\\w-]{2,4}$")
     @Size(min = 6, max = 35)
     @Column(nullable = false, unique = true, length = 35)
     public String email;
@@ -81,10 +84,10 @@ public abstract class Person extends PanacheEntity {
         this.age = calcAge.getYears();
     }
 
-    public Person() {
+    protected Person() {
     }
 
-    public Person(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address,
+    protected Person(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address,
                   String phone, String email, String password) {
         this.name = name;
         this.birthDate = birthDate;

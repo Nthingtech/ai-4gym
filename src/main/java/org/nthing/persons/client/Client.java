@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) //TODO REMOVE
 @Table(indexes = {@Index(name = "idx_enrollmentNumber", columnList = "enrollmentNumber")})
 public class Client extends Person {
 
@@ -44,7 +43,7 @@ public class Client extends Person {
     }
 
     public static List<Client> clients() {
-        return Client.list("order by lower(name)");
+        return list("order by lower(name)");
     }
 
     public static List<Client> findByFullName(String fullName) {

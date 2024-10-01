@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -15,6 +16,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
+
 
 @Path("/clients")
 @Produces(MediaType.APPLICATION_JSON)
@@ -57,7 +59,7 @@ public class ClientController {
     @PUT
     @Transactional
     @Path("{id}")
-    public Client updateClient(Long id, Client client){
+    public Client updateClient(@Positive @NotNull Long id, @Valid Client client){
         Client existingClient = Client.findById(id);
 
         if (existingClient ==null) {
@@ -84,7 +86,17 @@ public class ClientController {
         return existingClient;
     }
 
-
+    @DELETE
+    @Transactional
+    @Path("{id}")
+    public Response delete(@Positive @NotNull Long id) {
+        Client client = Client.findById(id);
+        if (client == null) {
+            throw new WebApplicationException("Client whit id of " + id + " does not exist", 404);
+        }
+        client.delete();
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
 
 
 

@@ -11,27 +11,29 @@ import jakarta.validation.constraints.Size;
 public class Address {
 
     @NotNull
-    @NotBlank
+    @NotBlank(message = "O campo não pode esta em branco.")
     @Column(name = "residence_number", nullable = false)
     public String residenceNumber;
 
     @NotNull
-    @NotBlank
+    @NotBlank(message = "O campo não pode esta em branco.")
     @Column(nullable = false, length = 100)
     public String street;
 
     @NotNull
-    @NotBlank
+    @NotBlank(message = "O campo não pode esta em branco.")
     @Column(nullable = false, length = 50)
     public String district;
 
     @NotNull
-    @NotBlank
+    @NotBlank(message = "O campo não pode esta em branco.")
+    @Size(max = 30, message = "O campo não pode ter mais que 30 caracteres.")
     @Column(nullable = false, length = 30)
     public String city;
 
     @NotNull
-    @NotBlank
+    @NotBlank(message = "O campo não pode esta em branco.")
+    @Size(max = 30, message = "O campo não pode ter mais que 30 caracteres.")
     @Column(nullable = false, length = 30)
     public String state;
 
@@ -41,7 +43,7 @@ public class Address {
     @Column(nullable = false, length = 8)
     public String zipcode;
 
-    @Size(max = 35)
+    @Size(max = 35, message = "O campo não pode ter mais que 35 caracteres.")
     @Column(length = 35)
     public String complement;
 
