@@ -17,11 +17,13 @@ public class Address {
 
     @NotNull
     @NotBlank(message = "O campo não pode esta em branco.")
+    @Size(min = 6, max = 100, message = "O campo deve conter entre 6 à 100 caracteres.")
     @Column(nullable = false, length = 100)
     public String street;
 
     @NotNull
     @NotBlank(message = "O campo não pode esta em branco.")
+    @Size(max = 100, message = "O campo não pode ter mais que 100 caracteres.")
     @Column(nullable = false, length = 50)
     public String district;
 

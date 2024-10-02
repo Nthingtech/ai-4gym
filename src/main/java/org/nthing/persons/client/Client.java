@@ -31,8 +31,8 @@ public class Client extends Person {
     public Client() {
     }
 
-    public Client(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address, String phone, String email, String password, Long enrollmentNumber, String instagram) {
-        super(name, birthDate, age, cpf, gender, address, phone, email, password);
+    public Client(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address, String phone, String email, String password, String status, Long enrollmentNumber, String instagram) {
+        super(name, birthDate, age, cpf, gender, address, phone, email, password, status);
         this.enrollmentNumber = enrollmentNumber;
         this.instagram = instagram;
     }

@@ -8,8 +8,10 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -31,14 +33,16 @@ public abstract class Person extends PanacheEntity {
     public Name name;
 
     @NotNull
+    @Past(message = "A data de nascimento deve ser uma data passada.")
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", nullable = false)
     public LocalDate birthDate;
 
 
-
+    @NotNull
     @Positive
+    @Max(1)
     @Column(length = 2)
-    public Integer age;
+    public Integer age = 0;
 
     @NotNull
     @NotBlank
@@ -49,6 +53,7 @@ public abstract class Person extends PanacheEntity {
     public String cpf;
 
     @NotNull
+    @Size(max = 12)
     @Column(nullable = false, length = 12)
     @Convert(converter = GenderConverter.class)
     public Gender gender;
@@ -76,6 +81,12 @@ public abstract class Person extends PanacheEntity {
     @Column(nullable = false, length = 30)
     public String password;
 
+    @NotNull
+    @Size(min = 5, max = 7)
+    @Pattern(regexp = "Ativo | Inativo")
+    @Column(length = 7, nullable = false)
+    public String status = "Active";
+
 
     @PreUpdate
     public void updateAge() {
@@ -88,7 +99,7 @@ public abstract class Person extends PanacheEntity {
     }
 
     protected Person(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address,
-                  String phone, String email, String password) {
+                  String phone, String email, String password, String status) {
         this.name = name;
         this.birthDate = birthDate;
         this.age = age;
@@ -98,8 +109,8 @@ public abstract class Person extends PanacheEntity {
         this.phone = phone;
         this.email = email;
         this.password = password;
+        this.status = status;
     }
-
 
 
     @Override
@@ -107,12 +118,14 @@ public abstract class Person extends PanacheEntity {
         return "Person{" +
                 "name=" + name +
                 ", birthDate=" + birthDate +
+                ", age=" + age +
                 ", cpf='" + cpf + '\'' +
                 ", gender=" + gender +
                 ", address=" + address +
-                ", phone=" + phone +
+                ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", status='" + status + '\'' +
                 ", id=" + id +
                 "} " + super.toString();
     }
