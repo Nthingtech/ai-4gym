@@ -60,30 +60,11 @@ public class ClientController {
     @Transactional
     @Path("{id}")
     public Client updateClient(@Positive @NotNull Long id, @Valid Client client){
-        Client existingClient = Client.findById(id);
-
-        if (existingClient ==null) {
+        Client exsitingClient = Client.findById(id);
+        if (exsitingClient == null) {
             throw new WebApplicationException("Client whit id of " + id + " does not exist", 404);
         }
-
-        existingClient.name.firstName = client.name.firstName;
-        existingClient.name.lastName = client.name.lastName;
-        existingClient.birthDate = client.birthDate;
-        existingClient.cpf = client.cpf;
-        existingClient.gender = client.gender;
-        existingClient.address.residenceNumber = client.address.residenceNumber;
-        existingClient.address.street = client.address.street;
-        existingClient.address.district = client.address.street;
-        existingClient.address.city = client.address.city;
-        existingClient.address.state = client.address.state;
-        existingClient.address.zipcode = client.address.zipcode;
-        existingClient.address.complement = client.address.complement;
-        existingClient.phone = client.phone;
-        existingClient.email = client.email;
-        existingClient.password = client.password;
-        existingClient.instagram = client.instagram;
-
-        return existingClient;
+        return clientService.updateClient(id, client);
     }
 
     @DELETE

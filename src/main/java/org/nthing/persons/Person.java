@@ -13,7 +13,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 import org.nthing.embeddable.Address;
@@ -39,8 +38,7 @@ public abstract class Person extends PanacheEntity {
 
 
     @NotNull
-    @Positive
-    @Max(1)
+    @Max(99)
     @Column(length = 2)
     public Integer age = 0;
 
@@ -53,7 +51,6 @@ public abstract class Person extends PanacheEntity {
     public String cpf;
 
     @NotNull
-    @Size(max = 12)
     @Column(nullable = false, length = 12)
     @Convert(converter = GenderConverter.class)
     public Gender gender;
@@ -83,9 +80,9 @@ public abstract class Person extends PanacheEntity {
 
     @NotNull
     @Size(min = 5, max = 7)
-    @Pattern(regexp = "Ativo | Inativo")
+    @Pattern(regexp = "Ativo|Inativo")
     @Column(length = 7, nullable = false)
-    public String status = "Active";
+    public String status = "Ativo";
 
 
     @PreUpdate
