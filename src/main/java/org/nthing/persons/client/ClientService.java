@@ -44,13 +44,15 @@ public class ClientService {
 
     @PrePersist
     public void calcAge(Client client) {
-        LocalDate today = LocalDate.now();
-        Period calcAge = Period.between(client.birthDate, today);
-        client.age = calcAge.getYears();
+       calcAndSetAge(client);
     }
 
     @PreUpdate
     public void updateAge(Client client) {
+        calcAndSetAge(client);
+    }
+
+    private void calcAndSetAge(Client client) {
         LocalDate today = LocalDate.now();
         Period calcAge = Period.between(client.birthDate, today);
         client.age = calcAge.getYears();
