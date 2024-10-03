@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.nthing.embeddable.Address;
 import org.nthing.embeddable.Name;
 import org.nthing.enums.Gender;
@@ -20,6 +21,7 @@ import java.util.Objects;
 @Entity
 @Table(indexes = {@Index(name = "idx_enrollmentNumber", columnList = "enrollmentNumber")})
 @SQLDelete(sql = "UPDATE Client SET status = 'Inativo' WHERE id= ?")
+@SQLRestriction("status <> 'Inativo'")
 public class Client extends Person {
 
     @Column(unique = true)
