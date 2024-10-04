@@ -46,6 +46,10 @@ public class Client extends Person {
         this.enrollmentNumber = id;
     }
 
+    public static List<Client> clientsByNameBirthDate() {
+        return Client.find("ORDER BY name, birthDate").list();
+    }
+
     public static List<Client> clients() {
         return list("order by lower(name)");
     }

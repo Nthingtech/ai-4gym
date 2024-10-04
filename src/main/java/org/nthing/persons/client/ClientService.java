@@ -9,9 +9,20 @@ import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 @ApplicationScoped
 public class ClientService {
+
+
+    public List<Client> clientsByNameBirthDate() {
+        return Client.clientsByNameBirthDate();
+    }
+
+    public List<Client> clientsList() {
+        return Client.listAll();
+    }
+
 
 
     public Client createClient(@Valid Client newClient) {

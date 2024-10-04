@@ -30,9 +30,15 @@ public class ClientController {
     }
 
     @GET
+    @Path("listName")
+    public List<Client> clientsByNameBirthDate(){
+        return clientService.clientsByNameBirthDate();
+    }
+
+    @GET
     @Path("list")
     public List<Client> clientList(){
-        return Client.listAll();
+        return clientService.clientsList();
     }
 
     @GET
@@ -78,6 +84,5 @@ public class ClientController {
         client.delete();
         return Response.status(Response.Status.NO_CONTENT).build();
     }
-
 
 }
