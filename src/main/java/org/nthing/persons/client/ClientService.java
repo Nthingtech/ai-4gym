@@ -1,7 +1,6 @@
 package org.nthing.persons.client;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -16,8 +15,12 @@ import java.util.List;
 @ApplicationScoped
 public class ClientService {
 
-    @Inject
-    EntityManager entityManager;
+
+    private final EntityManager entityManager;
+
+    public ClientService(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     public List<Client> getAllRecords() {
         String sql = "SELECT * FROM Client"; // Substitua 'my_entity' pelo nome da sua tabela
