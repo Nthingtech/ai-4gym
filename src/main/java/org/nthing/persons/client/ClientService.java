@@ -68,16 +68,16 @@ public class ClientService {
         return existingClient;
     }
 
-    public void delete (Long id) {
-        Client client = Client.findById(id);
-        client.delete();
-    }
-
     public void reactivateClient(Long id) {//TODO wait converter enum
         String sql = "UPDATE Client SET status = 'Ativo' WHERE id = :id";
         entityManager.createNativeQuery(sql)
                 .setParameter("id", id)
                 .executeUpdate();
+    }
+
+    public void delete (Long id) {
+        Client client = Client.findById(id);
+        client.delete();
     }
 
 
