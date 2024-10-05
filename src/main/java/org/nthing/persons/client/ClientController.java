@@ -42,11 +42,17 @@ public class ClientController {
     }
 
     @GET
+    @Path("list-inactive")
+    public List<Client> clientListInactive(){
+        return clientService.getAllRecords();
+    }
+
+    @GET
     @Path("{id}")
     public Client findByIdClient(@Positive @NotNull Long id) {
-        Client client = Client.findById(id);
+        Client client = clientService.findByIdClient(id);
         if (client == null || client.id <= 0) {
-            throw new WebApplicationException("Client with id of " + id + " does not exist", 404);
+            throw new WebApplicationException("Cliente com o id " + id + " não existe", 404);
         }
         return client;
     }
@@ -81,8 +87,19 @@ public class ClientController {
         if (client == null) {
             throw new WebApplicationException("Client whit id of " + id + " does not exist", 404);
         }
-        client.delete();
+        clientService.delete(id);
         return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
+    @PUT
+    @Transactional
+    @Path("/undo-delete-client/{id}")
+    public Client undoDeleteClient(@Positive @NotNull Long id, Client client){ //TODO wait converter enum
+        Client exsitingClient = Client.findById(id);
+        if (exsitingClient == null) {
+            throw new WebApplicationException("Client whit id of " + id + " does not exist", 404);
+        }
+        return clientService.undoDelete(id, client);
     }
 
 }

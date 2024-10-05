@@ -59,6 +59,7 @@ public class Client extends Person {
                 "ORDER BY name.firstName, name.lastName","%" + fullName + "%").list();
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

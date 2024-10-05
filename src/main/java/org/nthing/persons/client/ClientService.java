@@ -1,6 +1,8 @@
 package org.nthing.persons.client;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.Valid;
@@ -14,6 +16,13 @@ import java.util.List;
 @ApplicationScoped
 public class ClientService {
 
+    @Inject
+    EntityManager entityManager;
+
+    public List<Client> getAllRecords() {
+        String sql = "SELECT * FROM Client"; // Substitua 'my_entity' pelo nome da sua tabela
+        return entityManager.createNativeQuery(sql, Client.class).getResultList();
+    }
 
     public List<Client> clientsByNameBirthDate() {
         return Client.clientsByNameBirthDate();
@@ -23,6 +32,10 @@ public class ClientService {
         return Client.listAll();
     }
 
+    public Client findByIdClient(@Positive @NotNull Long id) {
+        return Client.findById(id);
+    }
+
 
 
     public Client createClient(@Valid Client newClient) {
@@ -30,6 +43,8 @@ public class ClientService {
         newClient.persist();
         return newClient;
     }
+
+
 
     public Client updateClient(@Positive @NotNull Long id, @Valid Client client) {
         Client existingClient = Client.findById(id);
@@ -53,6 +68,18 @@ public class ClientService {
         return existingClient;
     }
 
+    public void delete (Long id) {
+        Client client = Client.findById(id);
+        client.delete();
+    }
+
+    public Client undoDelete(Long id, Client client) {//TODO wait converter enum
+        Client inactiveClient = Client.findById(id);
+        inactiveClient.status = "Ativo";
+        return inactiveClient;
+    }
+
+
     @PrePersist
     public void calcAge(Client client) {
        calcAndSetAge(client);
@@ -69,7 +96,4 @@ public class ClientService {
         client.age = calcAge.getYears();
     }
 
-    public Client findBYId(Long id) {
-        return Client.findById(id);
-    }
 }
