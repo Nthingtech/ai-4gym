@@ -94,12 +94,9 @@ public class ClientController {
     @PUT
     @Transactional
     @Path("/undo-delete-client/{id}")
-    public Client undoDeleteClient(@Positive @NotNull Long id, Client client){ //TODO wait converter enum
-        Client exsitingClient = Client.findById(id);
-        if (exsitingClient == null) {
-            throw new WebApplicationException("Client whit id of " + id + " does not exist", 404);
-        }
-        return clientService.undoDelete(id, client);
+    public Response reactivateClient(@Positive @NotNull Long id){ //TODO wait converter enum
+        clientService.reactivateClient(id);
+        return Response.noContent().entity(id).build();
     }
 
 }

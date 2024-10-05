@@ -22,11 +22,6 @@ public class ClientService {
         this.entityManager = entityManager;
     }
 
-    public List<Client> getAllRecords() {
-        String sql = "SELECT * FROM Client"; // Substitua 'my_entity' pelo nome da sua tabela
-        return entityManager.createNativeQuery(sql, Client.class).getResultList();
-    }
-
     public List<Client> clientsByNameBirthDate() {
         return Client.clientsByNameBirthDate();
     }
@@ -35,10 +30,14 @@ public class ClientService {
         return Client.listAll();
     }
 
+    public List<Client> getAllRecords() {
+        String sql = "SELECT * FROM Client"; // Substitua 'my_entity' pelo nome da sua tabela
+        return entityManager.createNativeQuery(sql, Client.class).getResultList();
+    }
+
     public Client findByIdClient(@Positive @NotNull Long id) {
         return Client.findById(id);
     }
-
 
 
     public Client createClient(@Valid Client newClient) {
@@ -46,8 +45,6 @@ public class ClientService {
         newClient.persist();
         return newClient;
     }
-
-
 
     public Client updateClient(@Positive @NotNull Long id, @Valid Client client) {
         Client existingClient = Client.findById(id);
@@ -76,10 +73,11 @@ public class ClientService {
         client.delete();
     }
 
-    public Client undoDelete(Long id, Client client) {//TODO wait converter enum
-        Client inactiveClient = Client.findById(id);
-        inactiveClient.status = "Ativo";
-        return inactiveClient;
+    public void reactivateClient(Long id) {//TODO wait converter enum
+        String sql = "UPDATE Client SET status = 'Ativo' WHERE id = :id";
+        entityManager.createNativeQuery(sql)
+                .setParameter("id", id)
+                .executeUpdate();
     }
 
 
