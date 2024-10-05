@@ -79,6 +79,14 @@ public class ClientController {
         return clientService.updateClient(id, client);
     }
 
+    @PUT
+    @Transactional
+    @Path("/reactivate-client/{id}")
+    public Response reactivateClient(@Positive @NotNull Long id){ //TODO wait converter enum
+        clientService.reactivateClient(id);
+        return Response.noContent().entity(id).build();
+    }
+
     @DELETE
     @Transactional
     @Path("{id}")
@@ -89,14 +97,6 @@ public class ClientController {
         }
         clientService.delete(id);
         return Response.status(Response.Status.NO_CONTENT).build();
-    }
-
-    @PUT
-    @Transactional
-    @Path("/undo-delete-client/{id}")
-    public Response reactivateClient(@Positive @NotNull Long id){ //TODO wait converter enum
-        clientService.reactivateClient(id);
-        return Response.noContent().entity(id).build();
     }
 
 }
