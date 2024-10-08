@@ -26,12 +26,12 @@ public class ClientService {
         return Client.clientsByNameBirthDate();
     }
 
-    public List<Client> clientsList() {
+    public List<Client> allClientsList() {
         return Client.listAll();
     }
 
-    public List<Client> getAllRecords() {
-        String sql = "SELECT * FROM Client"; // Substitua 'my_entity' pelo nome da sua tabela
+    public List<Client> clientListInactive() {
+        String sql = "SELECT * FROM Client WHERE status = 'Inativo'";
         return entityManager.createNativeQuery(sql, Client.class).getResultList();
     }
 
@@ -39,6 +39,9 @@ public class ClientService {
         return Client.findById(id);
     }
 
+    public List<Client> findClientByFullName(String fullName) {
+        return Client.findClientByFullName(fullName);
+    }
 
     public Client createClient(@Valid Client newClient) {
         calcAge(newClient);
@@ -80,6 +83,12 @@ public class ClientService {
         client.delete();
     }
 
+    public void hardDeleteById(Long id) {
+        String sql = "DELETE FROM Client WHERE id = ?1";
+        entityManager.createNativeQuery(sql)
+                .setParameter(1, id)
+                .executeUpdate();
+    }
 
     @PrePersist
     public void calcAge(Client client) {
@@ -96,5 +105,4 @@ public class ClientService {
         Period calcAge = Period.between(client.birthDate, today);
         client.age = calcAge.getYears();
     }
-
 }

@@ -19,8 +19,6 @@ import java.util.List;
 
 
 @Path("/clients")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 public class ClientController {
 
     private final ClientService clientService;
@@ -29,25 +27,30 @@ public class ClientController {
         this.clientService = clientService;
     }
 
+
     @GET
-    @Path("listName")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("list-name-birthdate")
     public List<Client> clientsByNameBirthDate(){
         return clientService.clientsByNameBirthDate();
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("list")
-    public List<Client> clientList(){
-        return clientService.clientsList();
+    public List<Client> allClientList(){
+        return clientService.allClientsList();
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("list-inactive")
     public List<Client> clientListInactive(){
-        return clientService.getAllRecords();
+        return clientService.clientListInactive();
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
     public Client findByIdClient(@Positive @NotNull Long id) {
         Client client = clientService.findByIdClient(id);
@@ -57,7 +60,43 @@ public class ClientController {
         return client;
     }
 
+    @GET
+    @Path("list-name/{fullName}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    public Response findClientByFullName(String fullName) {
+        List<Client> clients = clientService.findClientByFullName(fullName);
+        if (!clients.isEmpty()) {
+            return Response.status(Response.Status.OK).entity(clients).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @GET
+    @Path("client-name")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    public Response findByName() {
+        List<Client> clients = Client.clients();
+        if (!clients.isEmpty()) {
+            return Response.status(Response.Status.OK).entity(clients).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    @Path("many-clients")
+    public Response saveClients(@Valid List<Client> clients) {
+        for (Client client : clients) {
+            client.persist();
+        }
+        return Response.status(Response.Status.CREATED).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("create")
     public Response createClient(@Valid Client newClient) {
@@ -69,6 +108,7 @@ public class ClientController {
     }
 
     @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("{id}")
     public Client updateClient(@Positive @NotNull Long id, @Valid Client client){
@@ -80,6 +120,7 @@ public class ClientController {
     }
 
     @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("/reactivate-client/{id}")
     public Response reactivateClient(@Positive @NotNull Long id){ //TODO wait converter enum
@@ -88,6 +129,7 @@ public class ClientController {
     }
 
     @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("{id}")
     public Response delete(@Positive @NotNull Long id) {
@@ -99,4 +141,12 @@ public class ClientController {
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    @Path("/hard-delete/{id}")
+    public Response hardDelete(@Positive @NotNull Long id) {
+        clientService.hardDeleteById(id);
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
 }

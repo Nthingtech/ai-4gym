@@ -19,13 +19,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(indexes = {@Index(name = "idx_enrollmentNumber", columnList = "enrollmentNumber")})
+@Table(indexes = {@Index(name = "idx_fullName", columnList = "firstName, lastName")})
 @SQLDelete(sql = "UPDATE Client SET status = 'Inativo' WHERE id= ?")
 @SQLRestriction("status <> 'Inativo'")
 public class Client extends Person {
 
+
     @Column(unique = true)
-    public Long enrollmentNumber = id;
+    public Long enrollmentNumber;
 
     @NotNull
     @Size(max = 30)
@@ -46,17 +47,23 @@ public class Client extends Person {
         this.enrollmentNumber = id;
     }
 
+
     public static List<Client> clientsByNameBirthDate() {
-        return Client.find("ORDER BY name, birthDate").list();
+        return find("ORDER BY  lower(name.firstName), lower(name.lastName), birthDate").list();
     }
 
     public static List<Client> clients() {
-        return list("order by lower(name)");
+        return list("order by lower(name.firstName), lower(name.lastName)");
     }
 
-    public static List<Client> findByFullName(String fullName) {
+    public static List<Client> findClientByFullName(String fullName) {
         return find("lower(name.firstName) like lower(?1) or lower(name.lastName) like lower(?1) " +
                 "ORDER BY name.firstName, name.lastName","%" + fullName + "%").list();
+    }
+
+
+    public static List<Client> clientsByBirthMonth (int month) {
+        return find("FROM Client WHERE MONTH(birthDate) = ?1 ORDER BY DAY(birthDate)", month).list(); //todo service and controller
     }
 
 
