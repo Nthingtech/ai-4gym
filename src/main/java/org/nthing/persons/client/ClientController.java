@@ -63,7 +63,6 @@ public class ClientController {
     @GET
     @Path("list-name/{fullName}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Transactional
     public Response findClientByFullName(String fullName) {
         List<Client> clients = clientService.findClientByFullName(fullName);
         if (!clients.isEmpty()) {
@@ -75,13 +74,19 @@ public class ClientController {
     @GET
     @Path("client-name")
     @Produces(MediaType.APPLICATION_JSON)
-    @Transactional
     public Response findByName() {
         List<Client> clients = Client.clients();
         if (!clients.isEmpty()) {
             return Response.status(Response.Status.OK).entity(clients).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @GET
+    @Path("/birthMonth/{month}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Client> clientsByBirthMonth(int month) {
+        return clientService.clientsByBirthMonth(month);
     }
 
     @POST

@@ -43,6 +43,10 @@ public class ClientService {
         return Client.findClientByFullName(fullName);
     }
 
+    public List<Client> clientsByBirthMonth(int month) {
+        return Client.clientsByBirthMonth(month);
+    }
+
     public Client createClient(@Valid Client newClient) {
         calcAge(newClient);
         newClient.persist();

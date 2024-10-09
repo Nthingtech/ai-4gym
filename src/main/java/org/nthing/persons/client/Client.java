@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(indexes = {@Index(name = "idx_fullName", columnList = "firstName, lastName")})
+@Table(indexes = {@Index(name = "idx_fullname", columnList = "firstName, lastName")})
 @SQLDelete(sql = "UPDATE Client SET status = 'Inativo' WHERE id= ?")
 @SQLRestriction("status <> 'Inativo'")
 public class Client extends Person {
