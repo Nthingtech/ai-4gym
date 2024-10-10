@@ -48,8 +48,8 @@ public class Client extends Person {
     }
 
 
-    public static List<Client> clientsByNameBirthDate() {
-        return find("ORDER BY  lower(name.firstName), lower(name.lastName), birthDate").list();
+    public static List<Client> clientsByBirthDate() {
+        return find("ORDER BY birthDate").list();
     }
 
     public static List<Client> clients() {
@@ -61,11 +61,14 @@ public class Client extends Person {
                 "ORDER BY name.firstName, name.lastName","%" + fullName + "%").list();
     }
 
-
     public static List<Client> clientsByBirthMonth (int month) {
-        return find("FROM Client WHERE MONTH(birthDate) = ?1 ORDER BY DAY(birthDate)", month).list(); //todo service and controller
+        return find("FROM Client WHERE MONTH(birthDate) = ?1 ORDER BY DAY(birthDate)", month).list();
     }
 
+    public static List<Client> clientListNativeQuery(){
+        String sql = "SELECT * FROM Client WHERE status = 'Inativo'";
+        return getEntityManager().createNativeQuery(sql, Client.class).getResultList();
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -22,8 +22,8 @@ public class ClientService {
         this.entityManager = entityManager;
     }
 
-    public List<Client> clientsByNameBirthDate() {
-        return Client.clientsByNameBirthDate();
+    public List<Client> clientsByBirthDate() {
+        return Client.clientsByBirthDate();
     }
 
     public List<Client> allClientsList() {

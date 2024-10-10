@@ -30,9 +30,9 @@ public class ClientController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("list-name-birthdate")
-    public List<Client> clientsByNameBirthDate(){
-        return clientService.clientsByNameBirthDate();
+    @Path("list-birthdate")
+    public List<Client> clientsByBirthDate(){
+        return clientService.clientsByBirthDate();
     }
 
     @GET
@@ -46,7 +46,7 @@ public class ClientController {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("list-inactive")
     public List<Client> clientListInactive(){
-        return clientService.clientListInactive();
+        return Client.clientListNativeQuery();//clientService.clientListInactive();
     }
 
     @GET
@@ -93,8 +93,9 @@ public class ClientController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("many-clients")
-    public Response saveClients(@Valid List<Client> clients) {
+    public Response saveClients(@Valid List<Client> clients) {//TODO for mock postman --delete after test
         for (Client client : clients) {
+            clientService.calcAge(client);
             client.persist();
         }
         return Response.status(Response.Status.CREATED).build();
