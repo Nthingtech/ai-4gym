@@ -65,7 +65,7 @@ public class Client extends Person {
         return find("FROM Client WHERE MONTH(birthDate) = ?1 ORDER BY DAY(birthDate)", month).list();
     }
 
-    public static List<Client> clientListNativeQuery(){
+    public static List<Client> clientListInactive(){
         String sql = "SELECT * FROM Client WHERE status = 'Inativo'";
         return getEntityManager().createNativeQuery(sql, Client.class).getResultList();
     }

@@ -5,8 +5,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.nthing.exceptions.RecordNotFoundException;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -31,19 +33,18 @@ public class ClientService {
     }
 
     public List<Client> clientListInactive() {
-        String sql = "SELECT * FROM Client WHERE status = 'Inativo'";
-        return entityManager.createNativeQuery(sql, Client.class).getResultList();
+        return Client.clientListInactive();
     }
 
     public Client findByIdClient(@Positive @NotNull Long id) {
-        return Client.findById(id);
+        return (Client) Client.findByIdOptional(id).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public List<Client> findClientByFullName(String fullName) {
+    public List<Client> findClientByFullName(@NotNull @NotBlank String fullName) {
         return Client.findClientByFullName(fullName);
     }
 
-    public List<Client> clientsByBirthMonth(int month) {
+    public List<Client> clientsByBirthMonth(@Positive @NotNull int month) {
         return Client.clientsByBirthMonth(month);
     }
 
@@ -73,6 +74,7 @@ public class ClientService {
         existingClient.instagram = client.instagram;
         updateAge(existingClient);
         return existingClient;
+
     }
 
     public void reactivateClient(Long id) {//TODO wait converter enum
@@ -83,8 +85,7 @@ public class ClientService {
     }
 
     public void delete (Long id) {
-        Client client = Client.findById(id);
-        client.delete();
+        Client.deleteById(id);
     }
 
     public void hardDeleteById(Long id) {

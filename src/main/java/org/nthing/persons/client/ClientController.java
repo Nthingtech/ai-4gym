@@ -46,18 +46,14 @@ public class ClientController {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("list-inactive")
     public List<Client> clientListInactive(){
-        return Client.clientListNativeQuery();//clientService.clientListInactive();
+        return clientService.clientListInactive();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
     public Client findByIdClient(@Positive @NotNull Long id) {
-        Client client = clientService.findByIdClient(id);
-        if (client == null || client.id <= 0) {
-            throw new WebApplicationException("Cliente com o id " + id + " não existe", 404);
-        }
-        return client;
+        return clientService.findByIdClient(id);
     }
 
     @GET
