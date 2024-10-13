@@ -24,21 +24,30 @@ public class ErrorMapper implements ExceptionMapper<Exception> {
 
         int code;
         String message;
-        if (exception instanceof WebApplicationException) {
-            code = ((WebApplicationException) exception).getResponse().getStatus();
-            message = exception.getMessage();
-        } else if (exception instanceof WebApplicationException) {
-            code = 404;
-            message = exception.getMessage();
+        if(exception instanceof WebApplicationException webApplicationException) {
+                code = webApplicationException.getResponse().getStatus();
+                message = exception.getMessage();
         } else {
-            code = 500;
-            message = "Ocorreu um erro inesperado.";
+            switch (exception.getClass().getSimpleName()) {
+                case "RecordNotFoundException" -> {
+                    code = 404;
+                    message = exception.getMessage();
+                }
+                case "BusinessException" -> {
+                    code = 422;
+                    message = exception.getMessage();
+                }
+                default -> {
+                    code = 500;
+                    message = "Ocorreu um erro inesperado";
+                }
+            }
         }
 
         ObjectNode exceptionJson = objectMapper.createObjectNode();
         exceptionJson.put("status", code);
         exceptionJson.put("error", exception.getClass().getSimpleName());
-        exceptionJson.put("message", exception.getClass().getSimpleName());
+        exceptionJson.put("message", message);
         exceptionJson.put("timestamp", java.time.LocalDate.now().toString());
 
         return Response.status(code)

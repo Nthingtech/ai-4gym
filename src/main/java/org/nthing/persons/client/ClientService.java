@@ -77,7 +77,7 @@ public class ClientService {
 
     }
 
-    public void reactivateClient(Long id) {//TODO wait converter enum
+    public void reactivateClient(Long id) {//TODO wait converter enum AND USE PANACHEQUERY
         String sql = "UPDATE Client SET status = 'Ativo' WHERE id = :id";
         entityManager.createNativeQuery(sql)
                 .setParameter("id", id)
@@ -89,10 +89,7 @@ public class ClientService {
     }
 
     public void hardDeleteById(Long id) {
-        String sql = "DELETE FROM Client WHERE id = ?1";
-        entityManager.createNativeQuery(sql)
-                .setParameter(1, id)
-                .executeUpdate();
+        Client.hardDeleteById(id);
     }
 
     @PrePersist

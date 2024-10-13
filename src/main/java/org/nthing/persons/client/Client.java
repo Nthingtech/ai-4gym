@@ -3,6 +3,7 @@ package org.nthing.persons.client;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
+import jakarta.persistence.NamedNativeQuery;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+@NamedNativeQuery(name = "Client.findInactive", query = "SELECT * FROM Client WHERE status = 'Inativo'", resultClass = Client.class)
 @Entity
 @Table(indexes = {@Index(name = "idx_fullname", columnList = "firstName, lastName")})
 @SQLDelete(sql = "UPDATE Client SET status = 'Inativo' WHERE id= ?")
@@ -65,9 +67,18 @@ public class Client extends Person {
         return find("FROM Client WHERE MONTH(birthDate) = ?1 ORDER BY DAY(birthDate)", month).list();
     }
 
-    public static List<Client> clientListInactive(){
-        String sql = "SELECT * FROM Client WHERE status = 'Inativo'";
-        return getEntityManager().createNativeQuery(sql, Client.class).getResultList();
+
+    public static List<Client> clientListInactive() {
+        return getEntityManager().createNamedQuery("Client.findInactive", Client.class).getResultList();
+    }
+
+
+
+    public static void hardDeleteById(Long id) {
+        String sql = "DELETE FROM Client WHERE id = ?1";
+        getEntityManager().createNativeQuery(sql)
+                .setParameter(1, id)
+                .executeUpdate();
     }
 
     @Override
