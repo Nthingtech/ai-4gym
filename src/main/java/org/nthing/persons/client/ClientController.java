@@ -114,10 +114,6 @@ public class ClientController {
     @Transactional
     @Path("{id}")
     public Client updateClient(@Positive @NotNull Long id, @Valid Client client){
-        Client exsitingClient = Client.findById(id);
-        if (exsitingClient == null) {
-            throw new WebApplicationException("Client whit id of " + id + " does not exist", 404);
-        }
         return clientService.updateClient(id, client);
     }
 

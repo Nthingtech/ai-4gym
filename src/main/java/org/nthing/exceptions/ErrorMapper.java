@@ -12,8 +12,8 @@ import org.jboss.logging.Logger;
 public class ErrorMapper implements ExceptionMapper<Exception> {
 
     private static final Logger LOGGER = Logger.getLogger(ErrorMapper.class.getName());
-
     private final ObjectMapper objectMapper;
+
     public ErrorMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }

@@ -55,7 +55,8 @@ public class ClientService {
     }
 
     public Client updateClient(@Positive @NotNull Long id, @Valid Client client) {
-        Client existingClient = Client.findById(id);
+        Client existingClient = (Client)Client.findByIdOptional(id)
+                .orElseThrow(() -> new RecordNotFoundException(id));
         existingClient.name.firstName = client.name.firstName;
         existingClient.name.lastName = client.name.lastName;
         existingClient.birthDate = client.birthDate;
@@ -85,7 +86,8 @@ public class ClientService {
     }
 
     public void delete (Long id) {
-        Client.deleteById(id);
+        Client client = Client.findById(id);
+        client.delete();
     }
 
     public void hardDeleteById(Long id) {
