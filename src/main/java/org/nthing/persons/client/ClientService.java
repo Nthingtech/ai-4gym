@@ -86,7 +86,7 @@ public class ClientService {
     }
 
     public void delete (Long id) {
-        Client client = (Client) Client.findByIdOptional(id)
+        Client.findByIdOptional(id)
                 .orElseThrow(() -> new RecordNotFoundException(id));
         Client.deleteById(id);
     }
