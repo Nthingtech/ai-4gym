@@ -121,9 +121,8 @@ public class ClientController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("/reactivate-client/{id}")
-    public Response reactivateClient(@Positive @NotNull Long id){ //TODO wait converter enum
+    public void reactivateClient(@Positive @NotNull Long id){ //TODO wait converter enum
         clientService.reactivateClient(id);
-        return Response.noContent().entity(id).build();
     }
 
     @DELETE

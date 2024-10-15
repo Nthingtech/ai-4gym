@@ -1,7 +1,7 @@
 package org.nthing.persons.client;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.Valid;
@@ -18,12 +18,6 @@ import java.util.List;
 public class ClientService {
 
 
-    private final EntityManager entityManager;
-
-    public ClientService(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
     public List<Client> clientsByBirthDate() {
         return Client.clientsByBirthDate();
     }
@@ -36,8 +30,13 @@ public class ClientService {
         return Client.clientListInactive();
     }
 
+
     public Client findByIdClient(@Positive @NotNull Long id) {
         return (Client) Client.findByIdOptional(id).orElseThrow(() -> new RecordNotFoundException(id));
+    }
+
+    public Client findByIdInactive(@Positive @NotNull Long id) {
+        return Client.findByIdInactive(id);
     }
 
     public List<Client> findClientByFullName(@NotNull @NotBlank String fullName) {
@@ -79,10 +78,15 @@ public class ClientService {
     }
 
     public void reactivateClient(Long id) {//TODO wait converter enum AND USE PANACHEQUERY
-        String sql = "UPDATE Client SET status = 'Ativo' WHERE id = :id";
-        entityManager.createNativeQuery(sql)
-                .setParameter("id", id)
-                .executeUpdate();
+
+      try {
+          Client.findByIdInactive(id);
+      } catch (NoResultException e) {
+          throw new RecordNotFoundException(id);
+      }
+
+      Client.reactivateClient(id);
+
     }
 
     public void delete (Long id) {
@@ -92,10 +96,11 @@ public class ClientService {
     }
 
     public void hardDeleteById(Long id) {
-        Client client = Client.findByIdInactive(id);//TODO
-        if (client == null) {
-            throw new RecordNotFoundException(id);
-        }
+       try {
+           Client.findByIdInactive(id);
+       } catch (NoResultException e) {
+           throw new  RecordNotFoundException(id);
+       }
         Client.hardDeleteById(id);
     }
 

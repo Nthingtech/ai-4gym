@@ -59,7 +59,6 @@ public class Client extends Person {
         this.enrollmentNumber = id;
     }
 
-
     public static List<Client> clientsByBirthDate() {
         return find("ORDER BY birthDate").list();
     }
@@ -77,6 +76,12 @@ public class Client extends Person {
         return find("FROM Client WHERE MONTH(birthDate) = ?1 ORDER BY DAY(birthDate)", month).list();
     }
 
+    public static void reactivateClient(Long id) {
+        String sql = "UPDATE Client SET status = 'Ativo' WHERE id = :id";
+        getEntityManager().createNativeQuery(sql)
+                .setParameter("id", id)
+                .executeUpdate();
+    }
 
     public static List<Client> clientListInactive() {
         return getEntityManager().createNamedQuery("Client.findInactive", Client.class).getResultList();
@@ -88,6 +93,8 @@ public class Client extends Person {
                 .setParameter("id", id)
                 .getSingleResult();
     }
+
+
 
     public static void hardDeleteById(Long id) {
         String sql = "DELETE FROM Client WHERE id = ?1";
