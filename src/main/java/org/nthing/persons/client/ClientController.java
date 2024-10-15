@@ -130,13 +130,8 @@ public class ClientController {
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("{id}")
-    public Response delete(@Positive @NotNull Long id) {
-        Client client = Client.findById(id);
-        if (client == null) {
-            throw new WebApplicationException("Client whit id of " + id + " does not exist", 404);
-        }
+    public void delete(@Positive @NotNull Long id) {
         clientService.delete(id);
-        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     @DELETE
