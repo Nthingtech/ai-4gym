@@ -92,6 +92,10 @@ public class ClientService {
     }
 
     public void hardDeleteById(Long id) {
+        Client client = Client.findByIdInactive(id);//TODO
+        if (client == null) {
+            throw new RecordNotFoundException(id);
+        }
         Client.hardDeleteById(id);
     }
 

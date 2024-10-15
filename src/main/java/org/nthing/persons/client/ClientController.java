@@ -138,8 +138,7 @@ public class ClientController {
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("/hard-delete/{id}")
-    public Response hardDelete(@Positive @NotNull Long id) {
+    public void hardDelete(@Positive @NotNull Long id) {
         clientService.hardDeleteById(id);
-        return Response.status(Response.Status.NO_CONTENT).build();
     }
 }

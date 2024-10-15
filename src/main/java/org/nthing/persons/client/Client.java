@@ -19,7 +19,17 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-@NamedNativeQuery(name = "Client.findInactive", query = "SELECT * FROM Client WHERE status = 'Inativo'", resultClass = Client.class)
+@NamedNativeQuery(
+        name = "Client.findInactive",
+        query = "SELECT * FROM Client WHERE status = 'Inativo'",
+        resultClass = Client.class
+)
+@NamedNativeQuery(
+                name = "Client.findByIdAndInactive",
+                query = "SELECT * FROM Client WHERE id = :id AND status = 'Inativo'",
+                resultClass = Client.class
+)
+
 @Entity
 @Table(indexes = {@Index(name = "idx_fullname", columnList = "firstName, lastName")})
 @SQLDelete(sql = "UPDATE Client SET status = 'Inativo' WHERE id= ?")
@@ -72,7 +82,12 @@ public class Client extends Person {
         return getEntityManager().createNamedQuery("Client.findInactive", Client.class).getResultList();
     }
 
-
+    public static Client findByIdInactive(Long id) {
+        return (Client) getEntityManager()
+                .createNamedQuery("Client.findByIdAndInactive")
+                .setParameter("id", id)
+                .getSingleResult();
+    }
 
     public static void hardDeleteById(Long id) {
         String sql = "DELETE FROM Client WHERE id = ?1";
