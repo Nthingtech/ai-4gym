@@ -30,13 +30,16 @@ public class ClientService {
         return Client.clientListInactive();
     }
 
-
     public Client findByIdClient(@Positive @NotNull Long id) {
         return (Client) Client.findByIdOptional(id).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     public Client findByIdInactive(@Positive @NotNull Long id) {
-        return Client.findByIdInactive(id);
+        try {
+            return Client.findByIdInactive(id);
+        } catch (NoResultException e) {
+            throw new RecordNotFoundException(id);
+        }
     }
 
     public List<Client> findClientByFullName(@NotNull @NotBlank String fullName) {

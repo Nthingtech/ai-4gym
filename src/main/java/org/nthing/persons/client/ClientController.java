@@ -59,7 +59,7 @@ public class ClientController {
     @GET
     @Path("list-name/{fullName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findClientByFullName(String fullName) {
+    public Response findClientByFullName(String fullName) {//TODO REFACTOR
         List<Client> clients = clientService.findClientByFullName(fullName);
         if (!clients.isEmpty()) {
             return Response.status(Response.Status.OK).entity(clients).build();
@@ -70,12 +70,19 @@ public class ClientController {
     @GET
     @Path("client-name")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findByName() {
+    public Response findByName() {//TODO REFACTOR
         List<Client> clients = Client.clients();
         if (!clients.isEmpty()) {
             return Response.status(Response.Status.OK).entity(clients).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @GET
+    @Path("client-inactive-id/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Client findByInactive(@Positive @NotNull Long id) {
+        return clientService.findByIdInactive(id);
     }
 
     @GET
