@@ -63,7 +63,7 @@ public class Client extends Person {
         return find("ORDER BY birthDate").list();
     }
 
-    public static List<Client> clients() {
+    public static List<Client> clientsListByName() {
         return list("order by lower(name.firstName), lower(name.lastName)");
     }
 
@@ -95,13 +95,15 @@ public class Client extends Person {
     }
 
 
-
     public static void hardDeleteById(Long id) {
         String sql = "DELETE FROM Client WHERE id = ?1";
         getEntityManager().createNativeQuery(sql)
                 .setParameter(1, id)
                 .executeUpdate();
     }
+
+
+
 
     @Override
     public boolean equals(Object o) {

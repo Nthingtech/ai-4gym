@@ -2,6 +2,8 @@ package org.nthing.persons.client;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.ws.rs.Consumes;
@@ -11,9 +13,9 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.nthing.persons.client.dto.ClientDTO;
 
 import java.util.List;
 
@@ -27,6 +29,12 @@ public class ClientController {
         this.clientService = clientService;
     }
 
+    @GET
+    @Path("list-by-name")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Client> listByName() {
+        return clientService.clientsListByName();
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -38,7 +46,7 @@ public class ClientController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("list")
-    public List<Client> allClientList(){
+    public List<ClientDTO> allClientList(){
         return clientService.allClientsList();
     }
 
@@ -57,25 +65,10 @@ public class ClientController {
     }
 
     @GET
-    @Path("list-name/{fullName}")
+    @Path("find-by-name/{fullName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findClientByFullName(String fullName) {//TODO REFACTOR
-        List<Client> clients = clientService.findClientByFullName(fullName);
-        if (!clients.isEmpty()) {
-            return Response.status(Response.Status.OK).entity(clients).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND).build();
-    }
-
-    @GET
-    @Path("client-name")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response findByName() {//TODO REFACTOR
-        List<Client> clients = Client.clients();
-        if (!clients.isEmpty()) {
-            return Response.status(Response.Status.OK).entity(clients).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND).build();
+    public List<Client> findClientByFullName(@NotNull @NotBlank String fullName) {
+         return clientService.findClientByFullName(fullName);
     }
 
     @GET
@@ -88,7 +81,7 @@ public class ClientController {
     @GET
     @Path("/birthMonth/{month}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Client> clientsByBirthMonth(int month) {
+    public List<Client> clientsByBirthMonth(@Positive @NotNull @Max(12) int month) {
         return clientService.clientsByBirthMonth(month);
     }
 
@@ -108,12 +101,8 @@ public class ClientController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("create")
-    public Response createClient(@Valid Client newClient) {
-        if (newClient.id !=null) {
-            throw new WebApplicationException("Id was invalidly set on request.", 422);
-        }
-        Client createdClient = clientService.createClient(newClient);
-        return Response.status(Response.Status.CREATED).entity(createdClient).build() ;
+    public Client createClient(@Valid Client newClient) {
+        return clientService.createClient(newClient);
     }
 
     @PUT

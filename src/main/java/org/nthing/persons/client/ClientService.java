@@ -5,10 +5,13 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.nthing.exceptions.RecordNotFoundException;
+import org.nthing.persons.client.dto.ClientDTO;
+import org.nthing.persons.client.dto.mapper.ClientMapper;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -17,14 +20,28 @@ import java.util.List;
 @ApplicationScoped
 public class ClientService {
 
+    private final ClientMapper clientMapper;
+
+    public ClientService(ClientMapper clientMapper) {
+        this.clientMapper = clientMapper;
+    }
+
+    public List<Client> clientsListByName() {
+        return Client.clientsListByName();
+    }
 
     public List<Client> clientsByBirthDate() {
         return Client.clientsByBirthDate();
     }
 
-    public List<Client> allClientsList() {
-        return Client.listAll();
+    public List<ClientDTO> allClientsList() {
+        return Client.<Client>listAll()
+                .stream()
+                .map(clientMapper::toDto)
+                /*.collect(Collectors.toList());TODO IMUTABLE OR NOT*/
+                .toList();
     }
+
 
     public List<Client> clientListInactive() {
         return Client.clientListInactive();
@@ -46,7 +63,10 @@ public class ClientService {
         return Client.findClientByFullName(fullName);
     }
 
-    public List<Client> clientsByBirthMonth(@Positive @NotNull int month) {
+    public List<Client> clientsByBirthMonth(@Positive @NotNull @Max(12) int month) {
+       /* if (month < 1 || month > 12) { //TODO MAKE NEW CONSTRAINT VIOLATION
+            throw new BusinessException("Número do mês inexistente.");
+        }*/
         return Client.clientsByBirthMonth(month);
     }
 
