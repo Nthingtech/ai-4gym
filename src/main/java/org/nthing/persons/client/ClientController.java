@@ -2,10 +2,8 @@ package org.nthing.persons.client;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -32,14 +30,14 @@ public class ClientController {
     @GET
     @Path("list-by-name")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Client> listByName() {
+    public List<ClientDTO> listByName() {
         return clientService.clientsListByName();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("list-birthdate")
-    public List<Client> clientsByBirthDate(){
+    public List<ClientDTO> clientsByBirthDate(){
         return clientService.clientsByBirthDate();
     }
 
@@ -53,14 +51,14 @@ public class ClientController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("list-inactive")
-    public List<Client> clientListInactive(){
+    public List<ClientDTO> clientListInactive(){
         return clientService.clientListInactive();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public Client findByIdClient(@Positive @NotNull Long id) {
+    public ClientDTO findByIdClient(@NotNull Long id) {
         return clientService.findByIdClient(id);
     }
 
@@ -74,14 +72,14 @@ public class ClientController {
     @GET
     @Path("client-inactive-id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Client findByInactive(@Positive @NotNull Long id) {
+    public ClientDTO findByInactive(@NotNull Long id) {
         return clientService.findByIdInactive(id);
     }
 
     @GET
     @Path("/birthMonth/{month}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Client> clientsByBirthMonth(@Positive @NotNull @Max(12) int month) {
+    public List<Client> clientsByBirthMonth(@NotNull int month) {
         return clientService.clientsByBirthMonth(month);
     }
 
@@ -109,7 +107,7 @@ public class ClientController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("{id}")
-    public Client updateClient(@Positive @NotNull Long id, @Valid Client client){
+    public Client updateClient(@NotNull Long id, @Valid Client client){
         return clientService.updateClient(id, client);
     }
 
@@ -117,7 +115,7 @@ public class ClientController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("/reactivate-client/{id}")
-    public void reactivateClient(@Positive @NotNull Long id){ //TODO wait converter enum
+    public void reactivateClient(@NotNull Long id){ //TODO wait converter enum
         clientService.reactivateClient(id);
     }
 
@@ -125,7 +123,7 @@ public class ClientController {
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("{id}")
-    public void delete(@Positive @NotNull Long id) {
+    public void delete(@NotNull Long id) {
         clientService.delete(id);
     }
 
@@ -133,7 +131,7 @@ public class ClientController {
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("/hard-delete/{id}")
-    public void hardDelete(@Positive @NotNull Long id) {
+    public void hardDelete(@NotNull Long id) {
         clientService.hardDeleteById(id);
     }
 }

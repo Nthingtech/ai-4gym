@@ -5,10 +5,9 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import org.nthing.exceptions.BusinessException;
 import org.nthing.exceptions.RecordNotFoundException;
 import org.nthing.persons.client.dto.ClientDTO;
 import org.nthing.persons.client.dto.mapper.ClientMapper;
@@ -26,34 +25,46 @@ public class ClientService {
         this.clientMapper = clientMapper;
     }
 
-    public List<Client> clientsListByName() {
-        return Client.clientsListByName();
+    public List<ClientDTO> clientsListByName() {
+        return Client.clientsListByName()
+                .stream()
+                .map(clientMapper::toDto)
+                .toList();
     }
 
-    public List<Client> clientsByBirthDate() {
-        return Client.clientsByBirthDate();
+    public List<ClientDTO> clientsByBirthDate() {
+        return Client.clientsByBirthDate()
+                .stream()
+                .map(clientMapper::toDto)
+                .toList();
     }
 
     public List<ClientDTO> allClientsList() {
         return Client.<Client>listAll()
                 .stream()
                 .map(clientMapper::toDto)
-                /*.collect(Collectors.toList());TODO IMUTABLE OR NOT*/
                 .toList();
     }
 
 
-    public List<Client> clientListInactive() {
-        return Client.clientListInactive();
+    public List<ClientDTO> clientListInactive() {
+        return Client.clientListInactive()
+                .stream()
+                .map(clientMapper::toDto)
+                .toList();
     }
 
-    public Client findByIdClient(@Positive @NotNull Long id) {
-        return (Client) Client.findByIdOptional(id).orElseThrow(() -> new RecordNotFoundException(id));
+    public ClientDTO findByIdClient(@NotNull Long id) {
+        return Client.<Client>findByIdOptional(id)
+                .map(clientMapper::toDto)
+                .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public Client findByIdInactive(@Positive @NotNull Long id) {
+
+    public ClientDTO findByIdInactive(@NotNull Long id) {
         try {
-            return Client.findByIdInactive(id);
+            Client client = Client.findByIdInactive(id);
+            return clientMapper.toDto(client) ;
         } catch (NoResultException e) {
             throw new RecordNotFoundException(id);
         }
@@ -63,10 +74,10 @@ public class ClientService {
         return Client.findClientByFullName(fullName);
     }
 
-    public List<Client> clientsByBirthMonth(@Positive @NotNull @Max(12) int month) {
-       /* if (month < 1 || month > 12) { //TODO MAKE NEW CONSTRAINT VIOLATION
-            throw new BusinessException("Número do mês inexistente.");
-        }*/
+    public List<Client> clientsByBirthMonth(@NotNull int month) {
+        if (month < 1 || month > 12) {
+            throw new BusinessException("Mês inexistente.");
+        }
         return Client.clientsByBirthMonth(month);
     }
 
@@ -76,7 +87,7 @@ public class ClientService {
         return newClient;
     }
 
-    public Client updateClient(@Positive @NotNull Long id, @Valid Client client) {
+    public Client updateClient(@NotNull Long id, @Valid Client client) {
         Client existingClient = (Client)Client.findByIdOptional(id)
                 .orElseThrow(() -> new RecordNotFoundException(id));
         existingClient.name.firstName = client.name.firstName;
