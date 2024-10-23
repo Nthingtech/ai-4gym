@@ -93,7 +93,7 @@ public class ClientService {
         return newClient;
     }
 
-    public Client updateClient(@NotNull Long id, @Valid Client client) {
+    public ClientDTO updateClient(@NotNull Long id, @Valid Client client) {
         Client existingClient = (Client)Client.findByIdOptional(id)
                 .orElseThrow(() -> new RecordNotFoundException(id));
         existingClient.name.firstName = client.name.firstName;
@@ -113,7 +113,7 @@ public class ClientService {
         existingClient.password = client.password;
         existingClient.instagram = client.instagram;
         updateAge(existingClient);
-        return existingClient;
+        return clientMapper.toDto(existingClient);
 
     }
 
