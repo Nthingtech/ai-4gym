@@ -70,15 +70,21 @@ public class ClientService {
         }
     }
 
-    public List<Client> findClientByFullName(@NotNull @NotBlank String fullName) {
-        return Client.findClientByFullName(fullName);
+    public List<ClientDTO> findClientByFullName(@NotNull @NotBlank String fullName) {
+        return Client.findClientByFullName(fullName)
+                .stream()
+                .map(clientMapper::toDto)
+                .toList();
     }
 
-    public List<Client> clientsByBirthMonth(@NotNull int month) {
+    public List<ClientDTO> clientsByBirthMonth(@NotNull int month) {
         if (month < 1 || month > 12) {
             throw new BusinessException("Mês inexistente.");
         }
-        return Client.clientsByBirthMonth(month);
+        return Client.clientsByBirthMonth(month)
+                .stream()
+                .map(clientMapper::toDto)
+                .toList();
     }
 
     public Client createClient(@Valid Client newClient) {

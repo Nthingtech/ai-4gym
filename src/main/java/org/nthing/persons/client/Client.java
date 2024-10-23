@@ -68,8 +68,8 @@ public class Client extends Person {
     }
 
     public static List<Client> findClientByFullName(String fullName) {
-        return find("lower(name.firstName) like lower(?1) or lower(name.lastName) like lower(?1) " +
-                "ORDER BY name.firstName, name.lastName","%" + fullName + "%").list();
+        return list("lower(name.firstName) like lower(?1) or lower(name.lastName) like lower(?1) " +
+                "ORDER BY name.firstName, name.lastName","%" + fullName + "%");
     }
 
     public static List<Client> clientsByBirthMonth (int month) {
@@ -94,16 +94,12 @@ public class Client extends Person {
                 .getSingleResult();
     }
 
-
     public static void hardDeleteById(Long id) {
         String sql = "DELETE FROM Client WHERE id = ?1";
         getEntityManager().createNativeQuery(sql)
                 .setParameter(1, id)
                 .executeUpdate();
     }
-
-
-
 
     @Override
     public boolean equals(Object o) {

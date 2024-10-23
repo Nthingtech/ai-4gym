@@ -65,7 +65,7 @@ public class ClientController {
     @GET
     @Path("find-by-name/{fullName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Client> findClientByFullName(@NotNull @NotBlank String fullName) {
+    public List<ClientDTO> findClientByFullName(@NotNull @NotBlank String fullName) {
          return clientService.findClientByFullName(fullName);
     }
 
@@ -79,7 +79,7 @@ public class ClientController {
     @GET
     @Path("/birthMonth/{month}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Client> clientsByBirthMonth(@NotNull int month) {
+    public List<ClientDTO> clientsByBirthMonth(@NotNull int month) {
         return clientService.clientsByBirthMonth(month);
     }
 
