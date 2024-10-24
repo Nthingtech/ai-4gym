@@ -70,8 +70,8 @@ public class ClientService {
         }
     }
 
-    public List<ClientDTO> findClientByFullName(@NotNull @NotBlank String fullName) {
-        return Client.findClientByFullName(fullName)
+    public List<ClientDTO> findClientByName(@NotNull @NotBlank String fullName) {
+        return Client.findClientByName(fullName)
                 .stream()
                 .map(clientMapper::toDto)
                 .toList();
@@ -145,12 +145,17 @@ public class ClientService {
     }
 
     @PrePersist
-    public void calcAge(Client client) {
+    private void calcAge(Client client) {
        calcAndSetAge(client);
     }
 
     @PreUpdate
-    public void updateAge(Client client) {
+    private void updateAge(Client client) {
+        calcAndSetAge(client);
+    }
+
+    @PrePersist
+    public void calcAgeTest(Client client) {//TODO Remove after tests
         calcAndSetAge(client);
     }
 

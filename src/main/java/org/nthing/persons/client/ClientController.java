@@ -65,8 +65,8 @@ public class ClientController {
     @GET
     @Path("find-by-name/{fullName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ClientDTO> findClientByFullName(@NotNull @NotBlank String fullName) {
-         return clientService.findClientByFullName(fullName);
+    public List<ClientDTO> findClientByName(@NotNull @NotBlank String fullName) {
+        return clientService.findClientByName(fullName);
     }
 
     @GET
@@ -89,7 +89,7 @@ public class ClientController {
     @Path("many-clients")
     public Response saveClients(@Valid List<Client> clients) {//TODO for mock postman --delete after test
         for (Client client : clients) {
-            clientService.calcAge(client);
+            clientService.calcAgeTest(client);
             client.persist();
         }
         return Response.status(Response.Status.CREATED).build();

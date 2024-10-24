@@ -21,8 +21,6 @@ public class GenderConverter implements AttributeConverter<Gender, String> {
         if (value == null) {
             return null;
         }
-
-
         return Stream.of(Gender.values())
                 .filter(g -> g.getValue().equals(value))
                 .findFirst()

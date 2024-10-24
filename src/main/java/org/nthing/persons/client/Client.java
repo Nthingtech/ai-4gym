@@ -67,10 +67,12 @@ public class Client extends Person {
         return list("order by lower(name.firstName), lower(name.lastName)");
     }
 
-    public static List<Client> findClientByFullName(String fullName) {
-        return list("lower(name.firstName) like lower(?1) or lower(name.lastName) like lower(?1) " +
-                "ORDER BY name.firstName, name.lastName","%" + fullName + "%");
+
+    public static List<Client> findClientByName(String fullName) {
+        String trimmedFullName = fullName.trim().replaceAll(" +", " ").toLowerCase();
+        return find("LOWER(concat(name.firstName, ' ', name.lastName)) LIKE ?1", "%" + trimmedFullName + "%").list();
     }
+
 
     public static List<Client> clientsByBirthMonth (int month) {
         return find("FROM Client WHERE MONTH(birthDate) = ?1 ORDER BY DAY(birthDate)", month).list();

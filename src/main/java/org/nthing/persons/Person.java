@@ -92,10 +92,10 @@ public abstract class Person extends PanacheEntity {
         this.age = calcAge.getYears();
     }
 
-    protected Person() {
+    public Person() {
     }
 
-    protected Person(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address,
+    public Person(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address,
                   String phone, String email, String password, String status) {
         this.name = name;
         this.birthDate = birthDate;
