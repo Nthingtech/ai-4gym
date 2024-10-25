@@ -70,6 +70,15 @@ public class ClientService {
         }
     }
 
+    public ClientDTO findByCpfInactive(@NotNull @NotBlank String cpf) {
+        try {
+            Client client = Client.findByCpfInactive(cpf);
+            return clientMapper.toDto(client) ;
+        } catch (NoResultException e) {
+            throw new BusinessException("CPF inexistente.");
+        }
+    }
+
     public List<ClientDTO> findClientByName(@NotNull @NotBlank String fullName) {
         return Client.findClientByName(fullName)
                 .stream()

@@ -75,6 +75,12 @@ public class ClientController {
     public ClientDTO findByInactive(@NotNull Long id) {
         return clientService.findByIdInactive(id);
     }
+    @GET
+    @Path("find-inactive-cpf/{cpf}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ClientDTO findByCpdInactive(@NotNull @NotBlank String cpf) {
+        return clientService.findByCpfInactive(cpf);
+    }
 
     @GET
     @Path("/birthMonth/{month}")

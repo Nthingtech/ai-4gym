@@ -29,6 +29,11 @@ import java.util.Objects;
                 query = "SELECT * FROM Client WHERE id = :id AND status = 'Inativo'",
                 resultClass = Client.class
 )
+@NamedNativeQuery(
+        name = "Client.findByCpfInactive",
+        query = "SELECT * FROM Client WHERE cpf = :cpf AND status = 'Inativo'",
+        resultClass = Client.class
+)
 
 @Entity
 @Table(indexes = {@Index(name = "idx_fullname", columnList = "firstName, lastName")})
@@ -93,6 +98,13 @@ public class Client extends Person {
         return (Client) getEntityManager()
                 .createNamedQuery("Client.findByIdAndInactive")
                 .setParameter("id", id)
+                .getSingleResult();
+    }
+
+    public static Client findByCpfInactive(String cpf) {
+        return (Client) getEntityManager()
+                .createNamedQuery("Client.findByCpfInactive")
+                .setParameter("cpf", cpf)
                 .getSingleResult();
     }
 
