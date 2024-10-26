@@ -13,6 +13,7 @@ import org.hibernate.annotations.SQLRestriction;
 import org.nthing.embeddable.Address;
 import org.nthing.embeddable.Name;
 import org.nthing.enums.Gender;
+import org.nthing.enums.Status;
 import org.nthing.persons.Person;
 
 import java.time.LocalDate;
@@ -53,7 +54,7 @@ public class Client extends Person {
     public Client() {
     }
 
-    public Client(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address, String phone, String email, String password, String status, Long enrollmentNumber, String instagram) {
+    public Client(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address, String phone, String email, String password, Status status, Long enrollmentNumber, String instagram) {
         super(name, birthDate, age, cpf, gender, address, phone, email, password, status);
         this.enrollmentNumber = enrollmentNumber;
         this.instagram = instagram;
