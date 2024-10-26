@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.nthing.embeddable.dto.AddressDTO;
 import org.nthing.embeddable.dto.NameDTO;
 import org.nthing.enums.Gender;
+import org.nthing.enums.Status;
 import org.nthing.enums.validation.ValueOfEnum;
 
 import java.time.LocalDate;
@@ -29,8 +30,8 @@ public record ClientDTO(
         @NotNull @NotBlank @CPF @Pattern(regexp = "\\d+", message = "O campo deve conter apenas dígitos numéricos")
         String cpf,
 
-        @NotNull @NotBlank @ValueOfEnum(enumClass = Gender.class)
-        String gender,
+        @NotNull @ValueOfEnum(enumClass = Gender.class)
+        Gender gender,
 
         @NotNull @Valid
         AddressDTO address,
@@ -43,6 +44,9 @@ public record ClientDTO(
 
         @NotNull @NotBlank @Size(min = 12, max = 30, message = "A senha deve ter no mínimo 12 caracteres.")
         String password,
+
+        @NotNull @ValueOfEnum(enumClass = Status.class)
+        Status status,
 
         Long enrollmentNumber,
 

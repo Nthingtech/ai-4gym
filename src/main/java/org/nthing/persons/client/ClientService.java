@@ -79,6 +79,12 @@ public class ClientService {
         }
     }
 
+    public ClientDTO findByCpf(@NotNull @NotBlank String cpf) {
+        return Client.<Client>find("cpf", cpf).singleResultOptional()
+                .map(clientMapper::toDto)
+                .orElseThrow(() -> new BusinessException("Cpf inexistente."));
+    }
+
     public List<ClientDTO> findClientByName(@NotNull @NotBlank String fullName) {
         return Client.findClientByName(fullName)
                 .stream()

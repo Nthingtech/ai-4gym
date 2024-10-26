@@ -18,7 +18,9 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.nthing.embeddable.Address;
 import org.nthing.embeddable.Name;
 import org.nthing.enums.Gender;
+import org.nthing.enums.Status;
 import org.nthing.enums.converters.GenderConverter;
+import org.nthing.enums.converters.StatusConverter;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -79,10 +81,9 @@ public abstract class Person extends PanacheEntity {
     public String password;
 
     @NotNull
-    @Size(min = 5, max = 7)
-    @Pattern(regexp = "Ativo|Inativo")
     @Column(length = 7, nullable = false)
-    public String status = "Ativo";
+    @Convert(converter = StatusConverter.class)
+    public Status status = Status.ACTIVE;
 
 
     @PreUpdate
@@ -96,7 +97,7 @@ public abstract class Person extends PanacheEntity {
     }
 
     public Person(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address,
-                  String phone, String email, String password, String status) {
+                  String phone, String email, String password, Status status) {
         this.name = name;
         this.birthDate = birthDate;
         this.age = age;
