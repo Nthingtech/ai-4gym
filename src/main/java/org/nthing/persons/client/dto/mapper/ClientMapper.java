@@ -13,6 +13,6 @@ public class ClientMapper {
         return new ClientDTO(client.id, new NameDTO(client.name.firstName, client.name.lastName), client.birthDate, client.age,
                 client.cpf, client.gender,
                 new AddressDTO(client.address.residenceNumber, client.address.street, client.address.district, client.address.city, client.address.state, client.address.zipcode),
-                client.phone, client.email, client.password, /*client.status, */client.enrollmentNumber, client.instagram);
+                client.phone, client.email, client.password, client.status, client.enrollmentNumber, client.instagram);
     }
 }
