@@ -5,7 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.PreUpdate;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
@@ -23,7 +22,6 @@ import org.nthing.enums.converters.GenderConverter;
 import org.nthing.enums.converters.StatusConverter;
 
 import java.time.LocalDate;
-import java.time.Period;
 
 @MappedSuperclass
 public abstract class Person extends PanacheEntity {
@@ -37,7 +35,6 @@ public abstract class Person extends PanacheEntity {
     @Past(message = "A data de nascimento deve ser uma data passada.")
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", nullable = false)
     public LocalDate birthDate;
-
 
     @NotNull
     @Max(99)
@@ -53,7 +50,7 @@ public abstract class Person extends PanacheEntity {
     public String cpf;
 
     @NotNull
-    @Column(nullable = false, length = 12)
+    @Column(nullable = false, length = 22)
     @Convert(converter = GenderConverter.class)
     public Gender gender;
 
@@ -81,50 +78,9 @@ public abstract class Person extends PanacheEntity {
     public String password;
 
     @NotNull
-    @Column(length = 7, nullable = false)
+    @Column(length = 9, nullable = false)
     @Convert(converter = StatusConverter.class)
     public Status status = Status.ACTIVE;
 
 
-    @PreUpdate
-    public void updateAge() {
-        LocalDate today = LocalDate.now();
-        Period calcAge = Period.between(this.birthDate, today);
-        this.age = calcAge.getYears();
-    }
-
-    public Person() {
-    }
-
-    public Person(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address,
-                  String phone, String email, String password, Status status) {
-        this.name = name;
-        this.birthDate = birthDate;
-        this.age = age;
-        this.cpf = cpf;
-        this.gender = gender;
-        this.address = address;
-        this.phone = phone;
-        this.email = email;
-        this.password = password;
-        this.status = status;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "name=" + name +
-                ", birthDate=" + birthDate +
-                ", age=" + age +
-                ", cpf='" + cpf + '\'' +
-                ", gender=" + gender +
-                ", address=" + address +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", status='" + status + '\'' +
-                ", id=" + id +
-                "} " + super.toString();
-    }
 }

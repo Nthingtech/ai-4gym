@@ -115,8 +115,8 @@ public class ClientController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("create")
-    public Client createClient(@Valid Client newClient) {
-        return clientService.createClient(newClient);
+    public ClientDTO createClient(ClientDTO newClientDTO) {
+        return clientService.createClient(newClientDTO);
     }
 
     @PUT

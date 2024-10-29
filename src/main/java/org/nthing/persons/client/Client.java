@@ -51,19 +51,12 @@ public class Client extends Person {
     @Column(unique = true, length = 35)
     public String instagram;
 
-    public Client() {
-    }
-
-    public Client(Name name, LocalDate birthDate, Integer age, String cpf, Gender gender, Address address, String phone, String email, String password, Status status, Long enrollmentNumber, String instagram) {
-        super(name, birthDate, age, cpf, gender, address, phone, email, password, status);
-        this.enrollmentNumber = enrollmentNumber;
-        this.instagram = instagram;
-    }
-
     @PrePersist
     public void setEnrollmentNumber() {
         this.enrollmentNumber = id;
     }
+
+    public Client() {}
 
     public static List<Client> clientsByBirthDate() {
         return find("ORDER BY birthDate").list();
@@ -128,4 +121,101 @@ public class Client extends Person {
     public int hashCode() {
         return Objects.hashCode(enrollmentNumber);
     }
+
+    public static ClientBuilder clientBuilder() {
+        return new ClientBuilder();
+    }
+
+    public static class ClientBuilder {
+        private Name name;
+        private LocalDate birthDate;
+        private Integer age;
+        private String cpf;
+        private Gender gender;
+        private Address address;
+        private String phone;
+        private String email;
+        private String password;
+        private Status status = Status.ACTIVE;
+        private Long enrollmentNumber;
+        private String instagram;
+
+        public ClientBuilder name(Name name) {
+            this.name = name;
+            return this;
+        }
+
+        public ClientBuilder birthDate(LocalDate birthDate) {
+            this.birthDate = birthDate;
+            return this;
+        }
+
+        public ClientBuilder age(Integer age) {
+            this.age = age;
+            return this;
+        }
+
+        public ClientBuilder cpf(String cpf) {
+            this.cpf = cpf;
+            return this;
+        }
+
+        public ClientBuilder gender(Gender gender) {
+            this.gender = gender;
+            return this;
+        }
+
+        public ClientBuilder address(Address address) {
+            this.address = address;
+            return this;
+        }
+
+        public ClientBuilder phone(String phone) {
+            this.phone = phone;
+            return this;
+        }
+
+        public ClientBuilder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public ClientBuilder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public ClientBuilder status(Status status) {
+            this.status = status;
+            return this;
+        }
+
+        public ClientBuilder enrollmentNumber(Long enrollmentNumber) {
+            this.enrollmentNumber = enrollmentNumber;
+            return this;
+        }
+
+        public ClientBuilder instagram(String instagram) {
+            this.instagram = instagram;
+            return this;
+        }
+
+        public Client build() {
+            var client = new Client();
+            client.name = this.name;
+            client.birthDate = this.birthDate;
+            client.age = this.age;
+            client.cpf = this.cpf;
+            client.gender = this.gender;
+            client.address = this.address;
+            client.phone = this.phone;
+            client.email = this.email;
+            client.password = this.password;
+            client.status = this.status;
+            client.enrollmentNumber = this.enrollmentNumber;
+            client.instagram = this.instagram;
+            return client;
+        }
+    }
+
 }

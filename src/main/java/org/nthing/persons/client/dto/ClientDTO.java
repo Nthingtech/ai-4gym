@@ -5,13 +5,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 import org.nthing.embeddable.dto.AddressDTO;
 import org.nthing.embeddable.dto.NameDTO;
 import org.nthing.enums.Gender;
-import org.nthing.enums.Status;
 import org.nthing.enums.validation.ValueOfEnum;
 
 import java.time.LocalDate;
@@ -19,19 +17,19 @@ import java.time.LocalDate;
 public record ClientDTO(
         Long id,
 
+        @NotNull
         NameDTO name,
 
         @NotNull
         LocalDate birthDate,
 
-        @NotNull @Positive
         Integer age,
 
         @NotNull @NotBlank @CPF @Pattern(regexp = "\\d+", message = "O campo deve conter apenas dígitos numéricos")
         String cpf,
 
         @NotNull @ValueOfEnum(enumClass = Gender.class)
-        Gender gender,
+        String gender,
 
         @NotNull @Valid
         AddressDTO address,
@@ -45,8 +43,9 @@ public record ClientDTO(
         @NotNull @NotBlank @Size(min = 12, max = 30, message = "A senha deve ter no mínimo 12 caracteres.")
         String password,
 
-        @NotNull @ValueOfEnum(enumClass = Status.class)
-        Status status,
+        //TODO remove client.status for test @NotNull @ValueOfEnum(enumClass = Status.class)
+        /*@NotNull @ValueOfEnum(enumClass = Status.class)
+        String status,*/
 
         Long enrollmentNumber,
 
