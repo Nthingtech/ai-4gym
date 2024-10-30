@@ -109,7 +109,7 @@ public class ClientService {
         return ClientMapper.toDTOBuilder(newClient);
     }
 
-    public ClientDTO updateClient(@NotNull Long id, @Valid Client client) {
+    public ClientDTO updateClient(@NotNull Long id, @Valid Client client) {//todo video enumtype parte 2 10:58
         Client existingClient = (Client)Client.findByIdOptional(id)
                 .orElseThrow(() -> new RecordNotFoundException(id));
         existingClient.name.firstName = client.name.firstName;

@@ -46,7 +46,7 @@ public class ClientMapper {
                 .birthDate(clientDTO.birthDate())
                 .age(clientDTO.age())
                 .cpf(clientDTO.cpf())
-                .gender(Gender.valueOf(clientDTO.gender()))
+                .gender(Gender.valueOf(clientDTO.gender())) //todo video enumtype parte 2 10:58
                 .address(new Address(clientDTO.address().residenceNumber(), clientDTO.address().street(),
                         clientDTO.address().district(), clientDTO.address().city(), clientDTO.address().state(),
                         clientDTO.address().zipcode(), clientDTO.address().complement()))
