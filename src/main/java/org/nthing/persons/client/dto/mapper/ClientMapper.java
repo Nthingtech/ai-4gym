@@ -12,12 +12,15 @@ import org.nthing.persons.client.dto.ClientDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+
 @ApplicationScoped
 public class ClientMapper {
 
     private static final Logger log = LoggerFactory.getLogger(ClientMapper.class);
 
     public static ClientDTO toDTOBuilder(Client client) {
+        log.info("Converting Client entity to ClientDTO");
         return new ClientDTO(
                 client.id,
                 new NameDTO(client.name.firstName, client.name.lastName),
@@ -37,6 +40,7 @@ public class ClientMapper {
     }
 
     public static Client toEntityBuilder(ClientDTO clientDTO) {
+        log.info("Converting ClientDTO to Client entity");
         return Client.clientBuilder()
                 .name(new Name(clientDTO.name().firstName(), clientDTO.name().lastName()))
                 .birthDate(clientDTO.birthDate())
@@ -54,7 +58,7 @@ public class ClientMapper {
                 .build();
     }
 
-    public Gender convertGenderValue(String value) {
+    public static Gender convertGenderValue(String value) {
         if (value == null) {
             return null;
         }

@@ -28,21 +28,21 @@ public class ClientService {
     public List<ClientDTO> clientsListByName() {
         return Client.clientsListByName()
                 .stream()
-                .map(/*clientMapper::toDto*/ClientMapper::toDTOBuilder)
+                .map(ClientMapper::toDTOBuilder)
                 .toList();
     }
 
     public List<ClientDTO> clientsByBirthDate() {
         return Client.clientsByBirthDate()
                 .stream()
-                .map(/*clientMapper::toDto*/ClientMapper::toDTOBuilder)
+                .map(ClientMapper::toDTOBuilder)
                 .toList();
     }
 
     public List<ClientDTO> allClientsList() {
         return Client.<Client>listAll()
                 .stream()
-                .map(/*clientMapper::toDto*/ClientMapper::toDTOBuilder)
+                .map(ClientMapper::toDTOBuilder)
                 .toList();
     }
 
@@ -50,13 +50,13 @@ public class ClientService {
     public List<ClientDTO> clientListInactive() {
         return Client.clientListInactive()
                 .stream()
-                .map(/*clientMapper::toDto*/ClientMapper::toDTOBuilder)
+                .map(ClientMapper::toDTOBuilder)
                 .toList();
     }
 
     public ClientDTO findByIdClient(@NotNull Long id) {
         return Client.<Client>findByIdOptional(id)
-                .map(/*clientMapper::toDto*/ClientMapper::toDTOBuilder)
+                .map(ClientMapper::toDTOBuilder)
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
@@ -64,7 +64,7 @@ public class ClientService {
     public ClientDTO findByIdInactive(@NotNull Long id) {
         try {
             Client client = Client.findByIdInactive(id);
-            return /*clientMapper.toDto(client)*/ClientMapper.toDTOBuilder(client) ;
+            return ClientMapper.toDTOBuilder(client) ;
         } catch (NoResultException e) {
             throw new RecordNotFoundException(id);
         }
@@ -73,7 +73,7 @@ public class ClientService {
     public ClientDTO findByCpfInactive(@NotNull @NotBlank String cpf) {
         try {
             Client client = Client.findByCpfInactive(cpf);
-            return /*clientMapper.toDto(client)*/ClientMapper.toDTOBuilder(client) ;
+            return ClientMapper.toDTOBuilder(client) ;
         } catch (NoResultException e) {
             throw new BusinessException("CPF inexistente.");
         }
@@ -81,14 +81,14 @@ public class ClientService {
 
     public ClientDTO findByCpf(@NotNull @NotBlank String cpf) {
         return Client.<Client>find("cpf", cpf).singleResultOptional()
-                .map(/*clientMapper::toDto*/ClientMapper::toDTOBuilder)
+                .map(ClientMapper::toDTOBuilder)
                 .orElseThrow(() -> new BusinessException("Cpf inexistente."));
     }
 
     public List<ClientDTO> findClientByName(@NotNull @NotBlank String fullName) {
         return Client.findClientByName(fullName)
                 .stream()
-                .map(/*clientMapper::toDto*/ClientMapper::toDTOBuilder)
+                .map(ClientMapper::toDTOBuilder)
                 .toList();
     }
 
@@ -98,15 +98,15 @@ public class ClientService {
         }
         return Client.clientsByBirthMonth(month)
                 .stream()
-                .map(/*clientMapper::toDto*/ClientMapper::toDTOBuilder)
+                .map(ClientMapper::toDTOBuilder)
                 .toList();
     }
 
     public ClientDTO createClient(@Valid ClientDTO newClientDTO) {
-        Client newClient = /*clientMapper.toEntity(newClientDTO)*/ClientMapper.toEntityBuilder(newClientDTO);
+        Client newClient = ClientMapper.toEntityBuilder(newClientDTO);
         calcAge(newClient);
         newClient.persist();
-        return /*clientMapper.toDto(newClient)*/ClientMapper.toDTOBuilder(newClient);
+        return ClientMapper.toDTOBuilder(newClient);
     }
 
     public ClientDTO updateClient(@NotNull Long id, @Valid Client client) {
@@ -129,7 +129,7 @@ public class ClientService {
         existingClient.password = client.password;
         existingClient.instagram = client.instagram;
         updateAge(existingClient);
-        return /*clientMapper.toDto(existingClient)*/ClientMapper.toDTOBuilder(existingClient);
+        return ClientMapper.toDTOBuilder(existingClient);
 
     }
 
