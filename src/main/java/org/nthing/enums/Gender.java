@@ -9,9 +9,9 @@ public enum Gender {
     OUTRO("Outro"),
     PREFIRO_NAO_INFORMAR("Prefiro não informar");
 
-    private String value;
+    private final String value;
 
-    private Gender(String value) {
+    Gender(String value) {
         this.value = value;
     }
 

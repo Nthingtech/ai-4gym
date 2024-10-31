@@ -7,6 +7,7 @@ import jakarta.persistence.PreUpdate;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.nthing.embeddable.Name;
 import org.nthing.exceptions.BusinessException;
 import org.nthing.exceptions.RecordNotFoundException;
 import org.nthing.persons.client.dto.ClientDTO;
@@ -109,7 +110,7 @@ public class ClientService {
         return ClientMapper.toDTOBuilder(newClient);
     }
 
-    public ClientDTO updateClient(@NotNull Long id, @Valid Client client) {//todo video enumtype parte 2 10:58
+   /* public ClientDTO updateClient(@NotNull Long id, @Valid Client client) {//todo video enumtype parte 2 10:58
         Client existingClient = (Client)Client.findByIdOptional(id)
                 .orElseThrow(() -> new RecordNotFoundException(id));
         existingClient.name.firstName = client.name.firstName;
@@ -130,7 +131,17 @@ public class ClientService {
         existingClient.instagram = client.instagram;
         updateAge(existingClient);
         return ClientMapper.toDTOBuilder(existingClient);
+    }*/
 
+    public ClientDTO updateClient(@NotNull Long id, @Valid ClientDTO clientDTO) {//todo video enumtype parte 2 10:58
+        return Client.findByIdOptional(id)
+                .map( existClient -> {
+                    Client updateClient = Client.clientBuilder()
+                            .name(new Name(clientDTO.name().firstName(), clientDTO.name().lastName()))
+                            .birthDate(clientDTO.birthDate())
+                            .age(clientDTO.age())
+                            .cpf()//TODO
+        })
     }
 
     public void reactivateClient(Long id) {
