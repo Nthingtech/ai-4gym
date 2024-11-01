@@ -123,8 +123,8 @@ public class ClientController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("{id}")
-    public ClientDTO updateClient(@NotNull Long id, @Valid Client client){
-        return clientService.updateClient(id, client);
+    public ClientDTO updateClient(@NotNull Long id, @Valid ClientDTO clientDTO){
+        return clientService.updateClient(id, clientDTO);
     }
 
     @PUT

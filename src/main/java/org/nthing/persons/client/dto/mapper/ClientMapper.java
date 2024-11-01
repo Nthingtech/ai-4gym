@@ -22,7 +22,7 @@ public class ClientMapper {
     public static ClientDTO toDTOBuilder(Client client) {
         log.info("Converting Client entity to ClientDTO");
         return new ClientDTO(
-                client.id,
+                //client.id, todo
                 new NameDTO(client.name.firstName, client.name.lastName),
                 client.birthDate,
                 client.age,
@@ -42,6 +42,7 @@ public class ClientMapper {
     public static Client toEntityBuilder(ClientDTO clientDTO) {
         log.info("Converting ClientDTO to Client entity");
         return Client.clientBuilder()
+                //.id(clientDTO.id()) todo
                 .name(new Name(clientDTO.name().firstName(), clientDTO.name().lastName()))
                 .birthDate(clientDTO.birthDate())
                 .age(clientDTO.age())
@@ -74,7 +75,7 @@ public class ClientMapper {
         };
     }
 
-    public Status convertStatusValue(String value) {
+    public static Status convertStatusValue(String value) {
         if (value == null) {
             return null;
         }

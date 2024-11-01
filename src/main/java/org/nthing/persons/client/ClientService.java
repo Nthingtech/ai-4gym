@@ -7,7 +7,6 @@ import jakarta.persistence.PreUpdate;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.nthing.embeddable.Name;
 import org.nthing.exceptions.BusinessException;
 import org.nthing.exceptions.RecordNotFoundException;
 import org.nthing.persons.client.dto.ClientDTO;
@@ -104,45 +103,63 @@ public class ClientService {
     }
 
     public ClientDTO createClient(@Valid ClientDTO newClientDTO) {
-        Client newClient = ClientMapper.toEntityBuilder(newClientDTO);
+        Client newClient = clientMapper.toEntityBuilder(newClientDTO);
         calcAge(newClient);
         newClient.persist();
         return ClientMapper.toDTOBuilder(newClient);
     }
 
-   /* public ClientDTO updateClient(@NotNull Long id, @Valid Client client) {//todo video enumtype parte 2 10:58
+     public ClientDTO updateClient(@NotNull Long id, @Valid ClientDTO clientDTO) {//todo video enumtype parte 2 10:58
         Client existingClient = (Client)Client.findByIdOptional(id)
                 .orElseThrow(() -> new RecordNotFoundException(id));
-        existingClient.name.firstName = client.name.firstName;
-        existingClient.name.lastName = client.name.lastName;
-        existingClient.birthDate = client.birthDate;
-        existingClient.cpf = client.cpf;
-        existingClient.gender = client.gender;
-        existingClient.address.residenceNumber = client.address.residenceNumber;
-        existingClient.address.street = client.address.street;
-        existingClient.address.district = client.address.street;
-        existingClient.address.city = client.address.city;
-        existingClient.address.state = client.address.state;
-        existingClient.address.zipcode = client.address.zipcode;
-        existingClient.address.complement = client.address.complement;
-        existingClient.phone = client.phone;
-        existingClient.email = client.email;
-        existingClient.password = client.password;
-        existingClient.instagram = client.instagram;
+        existingClient.name.firstName = clientDTO.name().firstName();
+        existingClient.name.lastName = clientDTO.name().lastName();
+        existingClient.birthDate = clientDTO.birthDate();
+        existingClient.cpf = clientDTO.cpf();
+        existingClient.gender = ClientMapper.convertGenderValue(clientDTO.gender());
+        existingClient.address.residenceNumber = clientDTO.address().residenceNumber();
+        existingClient.address.street = clientDTO.address().street();
+        existingClient.address.district = clientDTO.address().street();
+        existingClient.address.city = clientDTO.address().city();
+        existingClient.address.state = clientDTO.address().state();
+        existingClient.address.zipcode = clientDTO.address().zipcode();
+        existingClient.address.complement = clientDTO.address().complement();
+        existingClient.phone = clientDTO.phone();
+        existingClient.email = clientDTO.email();
+        existingClient.password = clientDTO.password();
+        existingClient.instagram = clientDTO.instagram();
         updateAge(existingClient);
         return ClientMapper.toDTOBuilder(existingClient);
-    }*/
+    }
 
-    public ClientDTO updateClient(@NotNull Long id, @Valid ClientDTO clientDTO) {//todo video enumtype parte 2 10:58
+  /*  public ClientDTO updateClient1(@NotNull Long id, @Valid ClientDTO clientDTO) {//todo video enumtype parte 2 10:58
         return Client.findByIdOptional(id)
                 .map( existClient -> {
-                    Client updateClient = Client.clientBuilder()
+                            existClient = Client.clientBuilder()
+                            //.id(clientDTO.id())
                             .name(new Name(clientDTO.name().firstName(), clientDTO.name().lastName()))
                             .birthDate(clientDTO.birthDate())
                             .age(clientDTO.age())
-                            .cpf()//TODO
-        })
-    }
+                            .cpf(clientDTO.cpf())
+                            .gender(clientMapper.convertGenderValue(clientDTO.gender()))
+                            .address(new Address(clientDTO.address().residenceNumber(), clientDTO.address().street(),
+                                    clientDTO.address().district(), clientDTO.address().city(), clientDTO.address().state(),
+                                    clientDTO.address().zipcode(), clientDTO.address().complement()
+                            ))
+                            .phone(clientDTO.phone())
+                            .email(clientDTO.email())
+                            .password(clientDTO.password())
+                            .enrollmentNumber(clientDTO.enrollmentNumber())
+                            .instagram(clientDTO.instagram())
+                            .build();
+                    updateAge((Client) existClient);
+                    return existClient;
+                })
+                .map(ClientMapper::toDTOBuilder)
+                .orElseThrow(() -> new RecordNotFoundException(id));
+    }*/
+
+
 
     public void reactivateClient(Long id) {
 

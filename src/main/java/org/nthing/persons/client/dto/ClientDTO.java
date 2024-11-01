@@ -15,7 +15,7 @@ import org.nthing.enums.validation.ValueOfEnum;
 import java.time.LocalDate;
 
 public record ClientDTO(
-        Long id,
+        //Long id, todo
 
         @NotNull
         NameDTO name,

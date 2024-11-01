@@ -127,6 +127,7 @@ public class Client extends Person {
     }
 
     public static class ClientBuilder {
+        private Long id;
         private Name name;
         private LocalDate birthDate;
         private Integer age;
@@ -139,6 +140,11 @@ public class Client extends Person {
         private Status status = Status.ACTIVE;
         private Long enrollmentNumber;
         private String instagram;
+
+        public ClientBuilder id (Long id) {
+            this.id = id;
+            return this;
+        }
 
         public ClientBuilder name(Name name) {
             this.name = name;
@@ -202,6 +208,7 @@ public class Client extends Person {
 
         public Client build() {
             var client = new Client();
+            client.id = this.id;
             client.name = this.name;
             client.birthDate = this.birthDate;
             client.age = this.age;
