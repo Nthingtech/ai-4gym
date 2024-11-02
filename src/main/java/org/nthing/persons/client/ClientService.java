@@ -1,6 +1,6 @@
 package org.nthing.persons.client;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Singleton;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 
-@ApplicationScoped
+@Singleton
 public class ClientService {
 
     private final ClientMapper clientMapper;
@@ -28,21 +28,21 @@ public class ClientService {
     public List<ClientDTO> clientsListByName() {
         return Client.clientsListByName()
                 .stream()
-                .map(ClientMapper::toDTOBuilder)
+                .map(clientMapper::toDTOBuilder)
                 .toList();
     }
 
     public List<ClientDTO> clientsByBirthDate() {
         return Client.clientsByBirthDate()
                 .stream()
-                .map(ClientMapper::toDTOBuilder)
+                .map(clientMapper::toDTOBuilder)
                 .toList();
     }
 
     public List<ClientDTO> allClientsList() {
         return Client.<Client>listAll()
                 .stream()
-                .map(ClientMapper::toDTOBuilder)
+                .map(clientMapper::toDTOBuilder)
                 .toList();
     }
 
@@ -50,13 +50,13 @@ public class ClientService {
     public List<ClientDTO> clientListInactive() {
         return Client.clientListInactive()
                 .stream()
-                .map(ClientMapper::toDTOBuilder)
+                .map(clientMapper::toDTOBuilder)
                 .toList();
     }
 
     public ClientDTO findByIdClient(@NotNull Long id) {
         return Client.<Client>findByIdOptional(id)
-                .map(ClientMapper::toDTOBuilder)
+                .map(clientMapper::toDTOBuilder)
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
@@ -64,7 +64,7 @@ public class ClientService {
     public ClientDTO findByIdInactive(@NotNull Long id) {
         try {
             Client client = Client.findByIdInactive(id);
-            return ClientMapper.toDTOBuilder(client) ;
+            return clientMapper.toDTOBuilder(client) ;
         } catch (NoResultException e) {
             throw new RecordNotFoundException(id);
         }
@@ -73,7 +73,7 @@ public class ClientService {
     public ClientDTO findByCpfInactive(@NotNull @NotBlank String cpf) {
         try {
             Client client = Client.findByCpfInactive(cpf);
-            return ClientMapper.toDTOBuilder(client) ;
+            return clientMapper.toDTOBuilder(client) ;
         } catch (NoResultException e) {
             throw new BusinessException("CPF inexistente.");
         }
@@ -81,14 +81,14 @@ public class ClientService {
 
     public ClientDTO findByCpf(@NotNull @NotBlank String cpf) {
         return Client.<Client>find("cpf", cpf).singleResultOptional()
-                .map(ClientMapper::toDTOBuilder)
+                .map(clientMapper::toDTOBuilder)
                 .orElseThrow(() -> new BusinessException("Cpf inexistente."));
     }
 
     public List<ClientDTO> findClientByName(@NotNull @NotBlank String fullName) {
         return Client.findClientByName(fullName)
                 .stream()
-                .map(ClientMapper::toDTOBuilder)
+                .map(clientMapper::toDTOBuilder)
                 .toList();
     }
 
@@ -98,7 +98,7 @@ public class ClientService {
         }
         return Client.clientsByBirthMonth(month)
                 .stream()
-                .map(ClientMapper::toDTOBuilder)
+                .map(clientMapper::toDTOBuilder)
                 .toList();
     }
 
@@ -106,17 +106,17 @@ public class ClientService {
         Client newClient = clientMapper.toEntityBuilder(newClientDTO);
         calcAge(newClient);
         newClient.persist();
-        return ClientMapper.toDTOBuilder(newClient);
+        return clientMapper.toDTOBuilder(newClient);
     }
 
-     public ClientDTO updateClient(@NotNull Long id, @Valid ClientDTO clientDTO) {//todo video enumtype parte 2 10:58
+     public ClientDTO updateClient(@NotNull Long id, @Valid ClientDTO clientDTO) {
         Client existingClient = (Client)Client.findByIdOptional(id)
                 .orElseThrow(() -> new RecordNotFoundException(id));
         existingClient.name.firstName = clientDTO.name().firstName();
         existingClient.name.lastName = clientDTO.name().lastName();
         existingClient.birthDate = clientDTO.birthDate();
         existingClient.cpf = clientDTO.cpf();
-        existingClient.gender = ClientMapper.convertGenderValue(clientDTO.gender());
+        existingClient.gender = clientMapper.convertGenderValue(clientDTO.gender());
         existingClient.address.residenceNumber = clientDTO.address().residenceNumber();
         existingClient.address.street = clientDTO.address().street();
         existingClient.address.district = clientDTO.address().street();
@@ -129,37 +129,8 @@ public class ClientService {
         existingClient.password = clientDTO.password();
         existingClient.instagram = clientDTO.instagram();
         updateAge(existingClient);
-        return ClientMapper.toDTOBuilder(existingClient);
+        return clientMapper.toDTOBuilder(existingClient);
     }
-
-  /*  public ClientDTO updateClient1(@NotNull Long id, @Valid ClientDTO clientDTO) {//todo video enumtype parte 2 10:58
-        return Client.findByIdOptional(id)
-                .map( existClient -> {
-                            existClient = Client.clientBuilder()
-                            //.id(clientDTO.id())
-                            .name(new Name(clientDTO.name().firstName(), clientDTO.name().lastName()))
-                            .birthDate(clientDTO.birthDate())
-                            .age(clientDTO.age())
-                            .cpf(clientDTO.cpf())
-                            .gender(clientMapper.convertGenderValue(clientDTO.gender()))
-                            .address(new Address(clientDTO.address().residenceNumber(), clientDTO.address().street(),
-                                    clientDTO.address().district(), clientDTO.address().city(), clientDTO.address().state(),
-                                    clientDTO.address().zipcode(), clientDTO.address().complement()
-                            ))
-                            .phone(clientDTO.phone())
-                            .email(clientDTO.email())
-                            .password(clientDTO.password())
-                            .enrollmentNumber(clientDTO.enrollmentNumber())
-                            .instagram(clientDTO.instagram())
-                            .build();
-                    updateAge((Client) existClient);
-                    return existClient;
-                })
-                .map(ClientMapper::toDTOBuilder)
-                .orElseThrow(() -> new RecordNotFoundException(id));
-    }*/
-
-
 
     public void reactivateClient(Long id) {
 
@@ -201,11 +172,12 @@ public class ClientService {
     @PrePersist
     public void calcAgeTest(Client client) {//TODO Remove after tests
         calcAndSetAge(client);
-    }
+    }//TODO REMOVE AFTER TESTS
 
     private void calcAndSetAge(Client client) {
         LocalDate today = LocalDate.now();
         Period calcAge = Period.between(client.birthDate, today);
         client.age = calcAge.getYears();
     }
+
 }

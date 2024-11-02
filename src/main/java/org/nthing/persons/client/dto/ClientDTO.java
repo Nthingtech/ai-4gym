@@ -15,7 +15,6 @@ import org.nthing.enums.validation.ValueOfEnum;
 import java.time.LocalDate;
 
 public record ClientDTO(
-        //Long id, todo
 
         @NotNull
         NameDTO name,
@@ -43,9 +42,6 @@ public record ClientDTO(
         @NotNull @NotBlank @Size(min = 12, max = 30, message = "A senha deve ter no mínimo 12 caracteres.")
         String password,
 
-        //TODO remove client.status for test @NotNull @ValueOfEnum(enumClass = Status.class)
-        /*@NotNull @ValueOfEnum(enumClass = Status.class)
-        String status,*/
 
         Long enrollmentNumber,
 

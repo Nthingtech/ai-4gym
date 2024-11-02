@@ -14,8 +14,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.nthing.persons.client.dto.ClientDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -23,7 +21,7 @@ import java.util.List;
 @Path("/clients")
 public class ClientController {
 
-    private static final Logger log = LoggerFactory.getLogger(ClientController.class);
+
     private final ClientService clientService;
 
     public ClientController(ClientService clientService) {

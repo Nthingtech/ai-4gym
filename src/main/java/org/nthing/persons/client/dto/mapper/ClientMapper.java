@@ -9,20 +9,16 @@ import org.nthing.enums.Gender;
 import org.nthing.enums.Status;
 import org.nthing.persons.client.Client;
 import org.nthing.persons.client.dto.ClientDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 
 @ApplicationScoped
 public class ClientMapper {
 
-    private static final Logger log = LoggerFactory.getLogger(ClientMapper.class);
 
-    public static ClientDTO toDTOBuilder(Client client) {
-        log.info("Converting Client entity to ClientDTO");
+    public ClientDTO toDTOBuilder(Client client) {
+
         return new ClientDTO(
-                //client.id, todo
                 new NameDTO(client.name.firstName, client.name.lastName),
                 client.birthDate,
                 client.age,
@@ -33,21 +29,19 @@ public class ClientMapper {
                 client.phone,
                 client.email,
                 client.password,
-                //client.status.name(),
                 client.enrollmentNumber,
                 client.instagram
         );
     }
 
-    public static Client toEntityBuilder(ClientDTO clientDTO) {
-        log.info("Converting ClientDTO to Client entity");
+    public Client toEntityBuilder(ClientDTO clientDTO) {
+
         return Client.clientBuilder()
-                //.id(clientDTO.id()) todo
                 .name(new Name(clientDTO.name().firstName(), clientDTO.name().lastName()))
                 .birthDate(clientDTO.birthDate())
                 .age(clientDTO.age())
                 .cpf(clientDTO.cpf())
-                .gender(convertGenderValue(clientDTO.gender())) //todo video enumtype parte 2 10:58
+                .gender(convertGenderValue(clientDTO.gender()))
                 .address(new Address(clientDTO.address().residenceNumber(), clientDTO.address().street(),
                         clientDTO.address().district(), clientDTO.address().city(), clientDTO.address().state(),
                         clientDTO.address().zipcode(), clientDTO.address().complement()))
@@ -59,7 +53,7 @@ public class ClientMapper {
                 .build();
     }
 
-    public static Gender convertGenderValue(String value) {
+    public Gender convertGenderValue(String value) {
         if (value == null) {
             return null;
         }
@@ -75,7 +69,7 @@ public class ClientMapper {
         };
     }
 
-    public static Status convertStatusValue(String value) {
+    public Status convertStatusValue(String value) {
         if (value == null) {
             return null;
         }
