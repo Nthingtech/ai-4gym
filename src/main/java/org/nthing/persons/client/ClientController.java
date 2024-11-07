@@ -63,6 +63,7 @@ public class ClientController {
         return clientService.findByIdClient(id);
     }
 
+
     @GET
     @Path("find-by-name/{fullName}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -129,7 +130,7 @@ public class ClientController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     @Path("/reactivate-client/{id}")
-    public void reactivateClient(@NotNull Long id){ //TODO wait converter enum
+    public void reactivateClient(@NotNull Long id){
         clientService.reactivateClient(id);
     }
 

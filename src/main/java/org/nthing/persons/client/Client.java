@@ -56,7 +56,7 @@ public class Client extends Person {
         this.enrollmentNumber = id;
     }
 
-    public Client() {}
+   /* public Client() {}*/
 
     public static List<Client> clientsByBirthDate() {
         return find("ORDER BY birthDate").list();

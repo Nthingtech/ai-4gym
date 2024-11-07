@@ -42,7 +42,6 @@ public record ClientDTO(
         @NotNull @NotBlank @Size(min = 12, max = 30, message = "A senha deve ter no mínimo 12 caracteres.")
         String password,
 
-
         Long enrollmentNumber,
 
         @NotNull
