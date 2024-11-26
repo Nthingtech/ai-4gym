@@ -18,7 +18,7 @@ public class PrescriptionController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public void create(Prescription prescription) {
-        prescription.persist();
+        prescription.persistAndFlush();
     }
 
     @GET
@@ -26,5 +26,12 @@ public class PrescriptionController {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Prescription> prescriptionsByClient(Long clientId) {
         return Prescription.findPrescriptionClient(clientId);
+    }
+
+    @GET
+    @Path("findAll")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Prescription> prescriptionList() {
+        return Prescription.listAll();
     }
 }

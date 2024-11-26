@@ -26,7 +26,7 @@ public class Prescription extends PanacheEntity {
     public Integer completedWorkout;
 
     public static List<Prescription> findPrescriptionClient(Long clientId) {
-        return find("client.id", clientId).list();
+        return find("SELECT p FROM Prescription p JOIN FETCH p.client c WHERE c.id = ?1", clientId).list(); //TODO converter projection
     }
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
