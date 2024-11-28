@@ -1,4 +1,4 @@
-package org.nthing.persons.client.dto;
+package org.nthing.persons.clients.dtos;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;

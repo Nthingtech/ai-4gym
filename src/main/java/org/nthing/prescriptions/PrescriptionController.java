@@ -1,4 +1,4 @@
-package org.nthing.prescription;
+package org.nthing.prescriptions;
 
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;

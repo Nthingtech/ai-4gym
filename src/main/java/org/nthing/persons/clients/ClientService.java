@@ -1,4 +1,4 @@
-package org.nthing.persons.client;
+package org.nthing.persons.clients;
 
 import jakarta.inject.Singleton;
 import jakarta.persistence.NoResultException;
@@ -9,8 +9,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.nthing.exceptions.BusinessException;
 import org.nthing.exceptions.RecordNotFoundException;
-import org.nthing.persons.client.dto.ClientDTO;
-import org.nthing.persons.client.dto.mapper.ClientMapper;
+import org.nthing.persons.clients.dtos.ClientDTO;
+import org.nthing.persons.clients.mapper.ClientMapper;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -152,11 +152,11 @@ public class ClientService {
 
     public void hardDeleteById(Long id) {
        try {
-           Client.findByIdInactive(id);
+           Client.findByIdActiveInactive(id);
        } catch (NoResultException e) {
            throw new  RecordNotFoundException(id);
        }
-        Client.hardDeleteById(id);
+       Client.hardDeleteById(id);
     }
 
     @PrePersist

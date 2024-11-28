@@ -1,4 +1,4 @@
-package org.nthing.persons.client;
+package org.nthing.persons.clients;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,6 +35,11 @@ import java.util.Objects;
         query = "SELECT * FROM Client WHERE cpf = :cpf AND status = 'Inativo'",
         resultClass = Client.class
 )
+@NamedNativeQuery(
+        name = "Client.findByIdActiveInactive",
+        query = "SELECT * FROM Client WHERE id = :id AND status = 'Ativo' OR status = 'Inativo'",
+        resultClass = Client.class
+)
 
 @Entity
 @Table(indexes = {@Index(name = "idx_fullname", columnList = "firstName, lastName")})
@@ -56,7 +61,6 @@ public class Client extends Person {
         this.enrollmentNumber = id;
     }
 
-   /* public Client() {}*/
 
     public static List<Client> clientsByBirthDate() {
         return find("ORDER BY birthDate").list();
@@ -99,6 +103,13 @@ public class Client extends Person {
         return (Client) getEntityManager()
                 .createNamedQuery("Client.findByCpfInactive")
                 .setParameter("cpf", cpf)
+                .getSingleResult();
+    }
+
+    public static Client findByIdActiveInactive(Long id) {
+        return (Client) getEntityManager()
+                .createNamedQuery("Client.findByIdActiveInactive")
+                .setParameter("id", id)
                 .getSingleResult();
     }
 

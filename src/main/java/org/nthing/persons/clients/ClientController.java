@@ -1,4 +1,4 @@
-package org.nthing.persons.client;
+package org.nthing.persons.clients;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -13,7 +13,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.nthing.persons.client.dto.ClientDTO;
+import org.nthing.persons.clients.dtos.ClientDTO;
 
 import java.util.List;
 

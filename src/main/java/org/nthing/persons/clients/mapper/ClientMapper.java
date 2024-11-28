@@ -1,4 +1,4 @@
-package org.nthing.persons.client.dto.mapper;
+package org.nthing.persons.clients.mapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import org.nthing.embeddable.Address;
@@ -7,8 +7,8 @@ import org.nthing.embeddable.dto.AddressDTO;
 import org.nthing.embeddable.dto.NameDTO;
 import org.nthing.enums.Gender;
 import org.nthing.enums.Status;
-import org.nthing.persons.client.Client;
-import org.nthing.persons.client.dto.ClientDTO;
+import org.nthing.persons.clients.Client;
+import org.nthing.persons.clients.dtos.ClientDTO;
 
 
 
@@ -75,7 +75,7 @@ public class ClientMapper {
         }
         return switch (value) {
             case "Ativo"         -> Status.ACTIVE;
-            case "Homem Trans"   -> Status.INACTIVE;
+            case "Inativo"       -> Status.INACTIVE;
             default              -> throw new IllegalArgumentException("Status inválido.");
         };
     }
