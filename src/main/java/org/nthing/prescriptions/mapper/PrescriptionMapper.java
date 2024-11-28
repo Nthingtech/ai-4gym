@@ -1,15 +1,18 @@
 package org.nthing.prescriptions.mapper;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import org.nthing.persons.clients.mapper.ClientMapper;
 import org.nthing.prescriptions.Prescription;
 import org.nthing.prescriptions.dtos.PrescriptionDTO;
 
+@ApplicationScoped
 public class PrescriptionMapper {
 
     private final ClientMapper clientMapper;
     public PrescriptionMapper(ClientMapper clientMapper) {
         this.clientMapper = clientMapper;
     }
+
 
     public PrescriptionDTO toDTOPrescription(Prescription prescription) {
         return new PrescriptionDTO(

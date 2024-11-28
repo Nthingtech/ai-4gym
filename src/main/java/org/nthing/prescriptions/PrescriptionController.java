@@ -13,6 +13,11 @@ import java.util.List;
 @Path("prescriptions")
 public class PrescriptionController {
 
+    private final PrescriptionService prescriptionService;
+    public PrescriptionController( PrescriptionService prescriptionService) {
+        this.prescriptionService = prescriptionService;
+    }
+
     @POST
     @Path("create")
     @Consumes(MediaType.APPLICATION_JSON)
