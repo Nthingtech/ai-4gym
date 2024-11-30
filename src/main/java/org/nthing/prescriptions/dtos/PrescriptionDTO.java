@@ -1,7 +1,5 @@
 package org.nthing.prescriptions.dtos;
 
-import org.nthing.persons.clients.dtos.ClientDTO;
-
 import java.time.LocalDateTime;
 
 public record PrescriptionDTO(String namePrescription,
@@ -9,5 +7,5 @@ public record PrescriptionDTO(String namePrescription,
                               LocalDateTime endPrescription,
                               Integer totalPrescription,
                               Integer completedWorkout,
-                              ClientDTO clientDTO) {
+                              Long IdClientDTO) {
 }

@@ -16,6 +16,8 @@ import java.time.LocalDate;
 
 public record ClientDTO(
 
+        Long id,
+
         @NotNull
         NameDTO name,
 

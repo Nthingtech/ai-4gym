@@ -1,5 +1,6 @@
 package org.nthing.persons.clients;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
@@ -40,7 +41,7 @@ import java.util.Objects;
         query = "SELECT * FROM Client WHERE id = :id AND status = 'Ativo' OR status = 'Inativo'",
         resultClass = Client.class
 )
-
+@ApplicationScoped
 @Entity
 @Table(indexes = {@Index(name = "idx_fullname", columnList = "firstName, lastName")})
 @SQLDelete(sql = "UPDATE Client SET status = 'Inativo' WHERE id= ?")

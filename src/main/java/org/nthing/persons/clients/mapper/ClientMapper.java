@@ -19,6 +19,7 @@ public class ClientMapper {
     public ClientDTO toDTOBuilder(Client client) {
 
         return new ClientDTO(
+               client.id,
                 new NameDTO(client.name.firstName, client.name.lastName),
                 client.birthDate,
                 client.age,
@@ -37,6 +38,7 @@ public class ClientMapper {
     public Client toEntityBuilder(ClientDTO clientDTO) {
 
         return Client.clientBuilder()
+                .id(clientDTO.id())
                 .name(new Name(clientDTO.name().firstName(), clientDTO.name().lastName()))
                 .birthDate(clientDTO.birthDate())
                 .age(clientDTO.age())

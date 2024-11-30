@@ -1,39 +1,19 @@
 package org.nthing.prescriptions.mapper;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import org.nthing.persons.clients.mapper.ClientMapper;
+import org.mapstruct.Mapper;
 import org.nthing.prescriptions.Prescription;
 import org.nthing.prescriptions.dtos.PrescriptionDTO;
 
-@ApplicationScoped
-public class PrescriptionMapper {
+import java.util.List;
 
-    private final ClientMapper clientMapper;
-    public PrescriptionMapper(ClientMapper clientMapper) {
-        this.clientMapper = clientMapper;
-    }
+@Mapper(componentModel = "cdi")
+public interface PrescriptionMapper {
 
+    Prescription toEntityPrescription(PrescriptionDTO prescriptionDTO);
 
-    public PrescriptionDTO toDTOPrescription(Prescription prescription) {
-        return new PrescriptionDTO(
-                prescription.namePrescription,
-                prescription.startPrescription,
-                prescription.endPrescription,
-                prescription.totalPrescription,
-                prescription.completedWorkout,
-                clientMapper.toDTOBuilder(prescription.client)
+    PrescriptionDTO toDTOPrescription(Prescription prescription);
 
-        );
-    }
+    List<Prescription> toEntityListPrescription(List<PrescriptionDTO> prescriptionDTOList);
 
-    public Prescription toEntityPrescription(PrescriptionDTO prescriptionDTO) {
-        var prescription = new Prescription();
-
-        prescription.namePrescription = prescriptionDTO.namePrescription();
-        prescription.startPrescription = prescriptionDTO.startPrescription();
-        prescription.endPrescription = prescriptionDTO.endPrescription();
-        prescription.completedWorkout = prescriptionDTO.completedWorkout();
-        clientMapper.toEntityBuilder(prescriptionDTO.clientDTO());
-        return prescription;
-    }
+    List<PrescriptionDTO> toDtoListPrescription(List<Prescription> prescription);
 }
