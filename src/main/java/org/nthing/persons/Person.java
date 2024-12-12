@@ -81,6 +81,5 @@ public abstract class Person extends PanacheEntity {
     @Column(length = 9, nullable = false)
     @Convert(converter = StatusConverter.class)
     public Status status = Status.ACTIVE;
-
-
+//commit for test
 }
