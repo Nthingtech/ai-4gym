@@ -82,6 +82,7 @@ public class Client extends Person {
         return find("FROM Client WHERE MONTH(birthDate) = ?1 ORDER BY DAY(birthDate)", month).list();
     }
 
+
     public static void reactivateClient(Long id) {
         String sql = "UPDATE Client SET status = 'Ativo' WHERE id = :id";
         getEntityManager().createNativeQuery(sql)

@@ -154,7 +154,7 @@ public class ClientService {
        try {
            Client.findByIdActiveInactive(id);
        } catch (NoResultException e) {
-           throw new  RecordNotFoundException(id);
+           throw new RecordNotFoundException(id);
        }
        Client.hardDeleteById(id);
     }
